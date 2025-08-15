@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<courseStructure xmlns="https://w3id.org/xapi/profiles/cmi5/v1/CourseStructure.xsd">
+    <course id="https://amazing/CTIP">
+        <title>
+            <langstring lang="en-US">Introduction to CTIP</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                The CTIP General Awareness WBT provides the information you are required to learn about trafficking in persons.
+            </langstring>
+        </description>
+    </course>
+    <au id="https://amazing/CTIP/1"
+        moveOn="CompletedOrPassed" masteryScore="0.3" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Introduction to CTIP - Welcome</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+The CTIP General Awareness WBT provides the information you are required to learn about trafficking in persons.
+            </langstring>
+        </description>
+        <url>index.html</url>
+    </au>
+</courseStructure>

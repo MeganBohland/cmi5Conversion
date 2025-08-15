@@ -1,0 +1,115 @@
+/* LAYOUT.CSS - Margins, Padding, Positioning, etc */
+
+h4.title { margin-bottom: 12px;}
+
+* { margin: 0; padding: 0;}
+/*body, html { overflow-x: hidden;}*/
+p { margin-bottom: 15px;}
+p.footnote { margin-bottom: 8px;}
+
+.access { position: absolute; top: -1000px; left: -1000px;}
+#audiocontrols { z-index: 1000;}
+#audiocontrols ul { list-style-type: none;}
+#audiocontrols li { float: left;}
+#audiotranscript { padding: 15px;}
+.menupage #audiocontrols { display: none;}
+
+blockquote { margin: 0 35px;}
+#btn-assessment { margin-left: 20px;}
+
+.caption { text-align:center;}
+
+#content .button a { padding: 0; margin: 0;}
+#content .button img { margin: 0; padding: 0;}
+#content .button { display: inline; padding-left: 10px;}
+
+#content { z-index: 900;}
+#content ul, #content ol { margin-left: 35px; margin-bottom: 15px;}
+#content ul li { list-style-position: outside;}
+#content ul li ul ,#content ol li ol { margin-left: 20px; margin-bottom: 0;}
+
+p.nobottommargin { margin-bottom: 0;}
+#content ul.nobottommargin, #content ol.nobottommargin { margin-bottom: 0;}
+
+#dlink { position: absolute; top: -1000px; left: -1000px;}
+
+.floatright { float: right;}
+.floatleft { float: left;}
+
+#graphic { position: relative;}
+#graphic .description { position: absolute; top: 0; left: 0; overflow: auto;}
+
+.kc-container { margin: 0; padding: 0;}
+.kc-container form { margin: 0; padding: 0;}
+.kc-question { margin: 0; padding: 0;}
+.kc-answers { margin: 0;}
+.kc-answers p { margin: 0; padding: 7px 0 7px 17px;}
+.kc-answers a span { margin: 0 5px 0 0; padding: 5px 9px;}
+.kc-container table { margin: 0;}
+.kc-container img { float: right;}
+.kc-bottomspacer { margin: 0; padding: 0;}
+#kc-buttons { margin-left: 8px;}
+#kc-buttons img { float: left; margin-right: 8px; margin-bottom: 10px; margin-top: 10px;}
+#kc-feedback { margin: 10px 0 0 15px; float: left; clear: left; display: block; padding-bottom: 5px;}
+.kc-bottomspacer { margin: 0; padding: 0;}
+.kc_inputbox { padding-top: 5px; !important; padding-top: 0px;}
+.kc_letter { float: left;}
+.kc_answertext { float: left; padding: 0 0 10px 4px;}
+.kc_result { position: absolute; top: -1000px; left: -1000px;}
+#btn-reset { margin-left: 8px; float: left;}
+#btn-checkyouranswer { float: left;}
+
+.kc-answers { width: 95%;}
+.kc_answertext { width: 90%;}
+
+.KC_mc #graphic,
+.KC_mcma #graphic,
+.KC_matching #graphic { float: right;}
+
+#layMenu table th { text-align: left; padding-bottom: 8px;}
+#layMenu table td.status_icon { padding: 10px;}
+
+#mainmenu ul { list-style-type: none;}
+#mainmenu ul li { margin-bottom: 10px;}
+#mainmenu ul li img { padding-right: 7px;}
+
+#nav { z-index: 1000;}
+#nav p { float: left;}
+
+.pdf { padding:  6px 0 8px 34px;}
+.popup #closeprompt { padding-top: 10px; clear: both; width: 360px;}
+.popup #content { z-index: 900; padding-right: 15px;}
+
+#progresscontainer { position: absolute; top:  0; left: 0; z-index: 2000;}
+#progressbar{ width:975px; height:3px; position:relative;}
+#progressbar #progressindicator { position:absolute; width:0; height:100%; overflow:hidden;}
+#progressbar #text{ position:  absolute; top: -1000px; left: -1000px;}
+
+#question_header_static { position: absolute; top: -1000px; left: -1000px;}
+
+ul#posttest_menu { list-style-type: none;}
+ul#posttest_menu li { margin-bottom: 7px;}
+ul#posttest_menu li img { padding-right: 7px;}
+ul#posttest_menu .TLO_message { padding-left: 25px;}
+
+#content .simbox { width: 630px; margin: 10px auto; padding: 5px;}
+#content .simbox h4 { margin: 5px 0 5px 10px;}
+#content .simbox img { margin: 0; padding: 0;}
+#content .simbox #graphic2 { margin-bottom: 10px; text-align: center;}
+#content .simbox #graphic2 img { padding: 3px;}
+#content .simbox .floatleft { margin: 0 8px;}
+
+#subnav { z-index: 1000;}
+#subnav ul { list-style-type: none;}
+#subnav li { float: left;}
+
+table.datatable { border-collapse: collapse; margin-bottom: 12px;}
+table.datatable td { padding: 0 5px; vertical-align: top;}
+table.helptable { border-collapse: collapse; margin-bottom: 12px;}
+table.helptable td { padding: 0 8px; vertical-align: middle; padding-bottom: 9px;}
+#txt_journal { width: 450px; height: 235px;}
+
+.web { padding:  6px 0 8px 34px;}
+.word { padding:  6px 0 8px 34px;}
+
+.nobottommargin { margin-bottom: 0;}

@@ -1,0 +1,5 @@
+.kc-answers td { padding-left: 25px;}
+
+th { padding-left: 20px;}
+td.premise { padding-bottom: 12px; !important; padding-bottom: 0;}
+td.answerblock { vertical-align: top; padding-top: 4px;}

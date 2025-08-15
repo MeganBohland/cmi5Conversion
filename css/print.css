@@ -1,0 +1,9 @@
+body, #container, #content { width: 100%; margin: 0; padding: 0; float: none; position: static;}
+#content { margin-top: 25px; overflow: visible;}
+
+h1, h2, h3 { position: static; margin: 0; padding: 0; text-align: left;}
+h1 { font-size: 1.3em;}
+h2 { font-size: 1.2em;}
+h3 {  font-size: 1.1em;}
+
+#audiocontrols, #nav, #subnav, #pagecount { display: none;}
