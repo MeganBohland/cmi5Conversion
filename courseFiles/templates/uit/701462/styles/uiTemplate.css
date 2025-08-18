@@ -1,0 +1,228 @@
+
+        * { margin: 0px; padding:0px; border:0px none;}
+        p { margin-bottom: 12px;}
+
+        .access { position: absolute; top: -1000px; left: -1000px;}
+
+        #audiocontrols {}
+        #audiocontrols ul {list-style-type: none;}
+
+        #audioBlock{display: block;}
+        #audio{display: none;}
+
+        #subnav{}
+        #subnav ul {list-style-type: none;}
+
+        #transcript{display: none;}
+
+        #transcript{display: none;}
+
+
+        input text {
+        	border: 1px;
+        }
+
+
+		#container {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 1000px;
+			height: 700px;
+		}
+
+        body { font: normal 12px Arial, Helvetica, sans-serif;}
+        
+        
+            
+    #content {
+        overflow:auto;
+        z-index:2;
+        padding:0px;
+        margin:0px;
+        position: absolute;
+        width:1000px;
+        height:603px; 
+        left:0px;
+        top:40px;
+    }
+    
+            
+    #background-image {
+		background: url('../media/swatch-UI_BG.png') no-repeat;
+		z-index: -2;
+    	position: absolute;
+    	left: 0px;
+    	top: 0px;
+    	height: 700px;
+    	width: 1000px;
+    }
+    
+        
+    
+        
+            
+    #nav_next {
+        position:absolute;
+        z-index: 3;
+        width:65px;
+        height:20px;
+        left:650px;
+        top:665px;
+        
+    }
+    
+            
+    #nav_back {
+        position:absolute;
+        z-index: 3;
+        width:65px;
+        height:20px;
+        left:480px;
+        top:665px;
+        
+    }
+    
+        
+    
+        
+            
+    #subnav li#subnav_help {
+        position:absolute;
+        z-index: 3;
+        width:45px;
+        height:20px;
+        left:30px;
+        top:665px;
+        
+    }
+    
+            
+    #subnav li#subnav_glossary {
+        position:absolute;
+        z-index: 3;
+        width:85px;
+        height:20px;
+        left:235px;
+        top:665px;
+        
+    }
+    
+            
+    #subnav li#subnav_library {
+        position:absolute;
+        z-index: 3;
+        width:95px;
+        height:20px;
+        left:105px;
+        top:665px;
+        
+    }
+    
+            
+    #subnav li#subnav_print {
+        position:absolute;
+        z-index: 3;
+        width:1px;
+        height:1px;
+        left:999px;
+        top:699px;
+        
+    }
+    
+            
+    #subnav li#subnav_tocmenu {
+        position:absolute;
+        z-index: 3;
+        width:1px;
+        height:1px;
+        left:999px;
+        top:699px;
+        
+    }
+    
+            
+    #subnav li#subnav_resources {
+        position:absolute;
+        z-index: 3;
+        width:1px;
+        height:1px;
+        left:999px;
+        top:699px;
+        
+    }
+    
+        
+    
+        
+            
+    #audiocontrols li#audio_transcript {
+        position:absolute;
+        width:1px;
+        height:1px;
+        left:999px;
+        top:699px;
+        
+    }
+    
+        
+    
+        
+            h3 {
+        position:absolute;
+        overflow:auto;
+        width:720px;
+        height:25px;
+        left:280px;
+        top:1px;
+        font-family:arial; font-weight:normal; color:#000000;font-size:13pt;
+    }
+    
+            #pageNumber {
+        position:absolute;
+        overflow:auto;
+        width:100px;
+        height:20px;
+        left:550px;
+        top:666px;
+        font-family:arial;color:white;font-size:10pt;text-align:center
+    }
+    
+        
+    
+        
+            
+     #classification_header {
+        position:absolute;
+        overflow:auto;
+        width:230px;
+        height:25px;
+        left:15px;
+        top:0px;
+        font-family:arial;font-weight:bold; color:green;font-size:12pt;text-align:left
+    }
+    
+            
+     #classification_footer {
+        position:absolute;
+        overflow:auto;
+        width:230px;
+        height:25px;
+        left:755px;
+        top:670px;
+        font-family:arial;font-weight:bold; color:green;font-size:12pt;text-align:right
+    }
+    
+            
+     #classification_source {
+        position:absolute;
+        overflow:auto;
+        width:1px;
+        height:1px;
+        left:999px;
+        top:699px;
+        
+    }
+    
+        
+    

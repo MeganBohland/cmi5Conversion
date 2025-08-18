@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Wrapper_standAlone</title>
+    <link href="../css/wrapper_v2.css" type="text/css" rel="stylesheet" />
+    
+    <script src="../js/common.js" type="text/javascript"></script>
+
+    <script src="../js/jquery-3.4.1.min.js"></script>
+    <script src="js/progress.js" type="text/javascript"></script>
+    <script src="../js/wrapperStandalone.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(function(){
+            window.adyReady({audioPlayer: null});
+        });
+    </script>
+</head>
+
+<body>
+    <noscript>
+		<p>Make sure your browser has JavaScript support.</p>
+    </noscript>
+    
+    
+
+	<div id="container">
+		<!--<h3 id="pageTitle"></h3>
+        <div id="classification_header">UNCLASSIFIED</div>
+		<div id="shellButtons">
+            <button id="nav_next" type="button">
+                <img title="next" alt="next" src="../css/images/UI_btn_next.png" />
+            </button>
+            <button id="nav_back" type="button">
+                <img title="back" alt="back" src="../css/images/UI_btn_back.png" />
+            </button>
+           
+            <button id="subnav_508" type="button">
+                <img title="508" alt="508" src="../css/images/UI_btn_508.png" />
+            </button>
+
+            <button id="audio_transcript" type="button">
+                <img title="transcript" alt="transcript" src="../css/images/UI_btn_cc.png" />
+            </button>
+
+            <button id="subnav_help" type="button">
+                <img title="help" alt="help" src="../css/images/UI_btn_help.png" />
+            </button>
+            <button id="subnav_resources" type="button">
+                <img title="resources" alt="resources" src="../css/images/UI_btn_resources.png" />
+            </button>
+            <button id="subnav_glossary" type="button">
+               <img title="glossary" alt="glossary" src="../css/images/UI_btn_glossary.png" />
+            </button>
+            
+            <button id="pageControl_play" type="button">
+                <img title="play" alt="play" src="../css/images/UI_btn_play.png" />
+            </button>
+            <button id="pageControl_pause" type="button">
+                <img title="pause" alt="pause" src="../css/images/UI_btn_pause.png" />
+            </button>
+            <button id="pageControl_rewind" type="button">
+                <img title="rewind" alt="rewind" src="../css/images/UI_btn_rewind.png" />
+            </button>
+        </div>
+		<div id="pageNumber">
+			Page&nbsp;<span id="currPage"></span>&nbsp;of&nbsp;<span id="totPage"></span>
+        </div>-->
+		
+        <div id="content">
+
+			<iframe id="pageContentFrame" class="pageContent" allowTransparency="true" src="about:blank"></iframe>
+            
+            <div id="transcriptBox" class="hidden">
+                <div id="transcriptText"></div>
+                <button id="transcriptClose" type="button">X</button>
+            </div>
+		</div>
+        <!--<div id="classification_footer">UNCLASSIFIED</div>-->
+    </div>
+</body>
+</html>

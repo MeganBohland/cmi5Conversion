@@ -1,0 +1,17 @@
+body {
+    padding: 10px;
+}
+input {
+    border: 1px solid #000;
+    padding: 2px;
+}
+div {
+    margin-bottom: 10px;
+}
+button {
+    padding: 3px;
+    border: 1px solid #000;
+}
+#content {
+    height: 300px;
+}

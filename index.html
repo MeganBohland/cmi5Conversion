@@ -32,7 +32,11 @@
 
   <body>
 
+  <!-- wrap content into cmi5 course template-->
+<script id="page_intro" class="contentpage" type="text/template" data-title="Introduction">
+  
     <div id="main-content">
+
 
     <!-- ADD PAGE CONTENT BELOW - Don't add or change anything above. -->
 
@@ -155,7 +159,7 @@
 
             </div>
 
-        </div><!--END Section 1-->
+        </div><!--END Section 1 (do we need to mark when this is completed/ read?)-->
 
 
 
@@ -269,7 +273,14 @@
 
         </button>
 
+     
+<button id="next" class="btn btn-block expandingPageContinueButton">
+  <span class="far fa-arrow-alt-circle-down expandButtonIcon"></span> Continue
+</button>
 
+<button id="prev" class="btn btn-block expandingPageBackButton">
+  <span class="far fa-arrow-alt-circle-left expandButtonIcon"></span> Back
+</button>
 <button onclick="completeCourse()">Mark as Complete</button>
     </div><!--END container-->
 
@@ -278,6 +289,8 @@
     </div><!--END main-content-->
 
     <!-- END OF PAGE CONTENT - Don't add or change anything below. -->
+</div>
+</script>
 
     <script src="js/vsLib.js"></script>
 
@@ -286,42 +299,25 @@
 
 <script src="js/course_cmi5.js"></script>
 <script src="js/course.js"></script>
-<script type="text/javascript">
-    let course;
-
-    (function () {
-        let queryParams = new URLSearchParams(document.location.search.substring(1));
-        course = new Course({
-
-            completionBehavior: "quiz",
-            enableBookmarking: true,
-            navigateOnLaunch: true,
-            navigationInjectIntoContent: false,
-            trackingPlugin: new CourseCmi5Plugin()
-        });
-
-        document.getElementById("next").addEventListener("click", () => {
-            course.nextPage();
-        });
-        document.getElementById("prev").addEventListener("click", () => {
-            course.previousPage();
-        });
-        document.addEventListener("click", e => {
-            // Capture all exit buttons.
-            if (e.target && e.target.matches(".exit-button")) {
-                course.exit();
-            }
-            // Capture navigation menu item interactions.
-            if (e.target && e.target.matches(".navmenuitem")) {
-                course.gotoPage(e.target.dataset.pageidx);
-            }
-        });
-    })();
-</script>
-
-
-
-</script>
+<script src="js/cmi5-hooks.js"></script>
   </body>
+        
+<script>
+
+
+  let course = new Course({
+    completionBehavior: "page", // or "quiz" if you want quizzes
+    enableBookmarking: true,
+    navigateOnLaunch: true,
+    navigationInjectIntoContent: false,
+    trackingPlugin: new CourseCmi5Plugin()
+  });
+
+        document.getElementById("next").addEventListener("click", () => course.nextPage());
+        document.getElementById("prev").addEventListener("click", () => course.previousPage());
+        document.getElementById("expandContent").addEventListener("click", () => course.completed());
+
+
+</script>
 
 </html>

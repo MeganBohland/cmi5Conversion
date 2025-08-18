@@ -1,0 +1,27 @@
+
+    
+	input {
+ 		border:1px solid;
+ 	}
+
+ 	select {
+ 		border:1px solid;
+ 	}   	
+    
+    #dlink {position:absolute; top:-120px;}		
+	
+    
+    	#Flash_702600 {
+        position:absolute;
+        overflow-x:visible;
+        
+        padding:0px;
+        margin:0px;
+        width:1000px;
+        height:600px;
+        left:0px;
+        top:0px;
+        
+    }
+    
+    

@@ -1,0 +1,16 @@
+#letters{
+  font-size: 0.95em;
+  background-color: #DDD;
+  margin: 0;
+  padding: 0;
+  height: 20px;
+  text-align: center;
+}
+#letters a {
+    color: #444;
+    text-decoration: none;
+}
+#letters a:hover {
+    color: #B5B5B5;
+    text-decoration: underline;
+}

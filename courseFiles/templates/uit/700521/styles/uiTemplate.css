@@ -1,0 +1,243 @@
+		*{border: 0;}
+        * { margin: 0; padding:}
+        p { margin-bottom: 12px;}
+         
+        .access { position: absolute; top: -1000px; left: -1000px;}
+        
+        #audiocontrols {}
+        #audiocontrols ul {list-style-type: none;}
+        
+        #audioBlock{display: block;}
+        #audio{display: none;}
+         
+        #subnav{}
+        #subnav ul {list-style-type: none;}
+        
+        #transcript{display: none;}
+        
+        #transcript2{display: none;}
+        
+        
+        input text { 
+        	border: 1px;
+        }
+         
+         
+		#container {
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			width: 760px;
+			height: 650px;
+		}
+         
+        body { font: normal 12px Arial, Helvetica, sans-serif;}
+        
+        
+            
+    #content {
+        overflow:auto;
+        z-index:2;
+        padding:0px;
+        margin:0px;
+        position: absolute;
+        width:760px;
+        height:563px;                        
+        left:0px;
+        top:90px;
+    }
+    
+            
+    #background-image {
+		background: url('../media/UI-Template_760x650-No-Class-markings.png') no-repeat; 
+		z-index: -2;
+    	position: absolute;
+    	left: 0px; 
+    	top: 0px;
+    	height: 650px;
+    	width: 760px;
+    }
+    
+        
+    #background-image-nonext {
+		background: url('../media/Standard-760x60-header-art-for-UI-Templates-nonext.png') no-repeat; 
+		z-index: -2;
+    	position: absolute;
+    	left: 0px; 
+    	top: 0px;
+    	height: 60px;
+    	width: 760px;
+    }        
+        
+            
+    #nav_back {
+        position:absolute;
+        z-index: 3;
+        width:20px;
+        height:20px;                       
+        left:613px;
+        top:26px;
+        
+    }
+    
+            
+    #nav_next {
+        position:absolute;
+        z-index: 3;
+        width:20px;
+        height:20px;                       
+        left:735px;
+        top:26px;
+        
+    }
+    
+        
+    
+        
+            
+    #subnav li#subnav_library {
+        position:absolute;
+        z-index: 3;
+        width:30px;
+        height:30px;                       
+        left:505px;
+        top:23px;
+        
+    }
+    
+            
+    #subnav li#subnav_resources {
+        position:absolute;
+        z-index: 3;
+        width:30px;
+        height:30px;                       
+        left:540px;
+        top:23px;
+        
+    }
+    
+            
+    #subnav li#subnav_glossary {
+        position:absolute;
+        z-index: 3;
+        width:30px;
+        height:30px;                       
+        left:540px;
+        top:23px;
+        
+    }
+    
+            
+    #subnav li#subnav_help {
+        position:absolute;
+        z-index: 3;
+        width:30px;
+        height:30px;                       
+        left:575px;
+        top:23px;
+        
+    }
+    
+        
+    
+        
+            
+    #audiocontrols li#audio_transcript {
+        position:absolute;
+        width:30px;
+        height:30px;                       
+        left:470px;
+        top:23px;
+        
+    }
+    
+            
+    #audiocontrols li#audio_replay {
+        position:absolute;
+        width:24px;
+        height:24px;                       
+        left:380px;
+        top:26px;
+        
+    }
+    
+            
+    #audiocontrols li#audio_pause {
+        position:absolute;
+        width:24px;
+        height:24px;                       
+        left:440px;
+        top:26px;
+        
+    }
+    
+            
+    #audiocontrols li#audio_play {
+        position:absolute;
+        width:24px;
+        height:24px;                       
+        left:410px;
+        top:26px;
+        
+    }
+
+    
+        
+            #pageNumber {
+        position:absolute;
+        overflow:auto;
+        width:95px;
+        height:16px;                        
+        left:643px;
+        top:30px;
+        font-family:verdana;color:#000000;font-size:8pt;
+    }
+    
+            h3 {
+        position:absolute;
+        overflow:auto;
+        width:750px;
+        height:16px;                        
+        left:5px;
+        top:74px;
+        font-family:verdana;color:black;font-size:10pt;font-weight:bold;
+    }
+    
+        
+    
+        
+            
+     #classification_source {
+        position:absolute;
+        overflow:auto;
+        width:0px;
+        height:0px;                        
+        left:730px;
+        top:630px;
+        
+    }
+    
+            
+     #classification_footer {
+        position:absolute;
+        overflow:auto;
+        width:400px;
+        height:22px;                        
+        left:180px;
+        top:628px;
+        font-family:arial;font-weight:bold; color:green;font-size:14pt;text-align:center;
+    }
+    
+            
+     #classification_header {
+        position:absolute;
+        overflow:auto;
+        width:400px;
+        height:22px;                        
+        left:180px;
+        top:58px;
+        font-family:arial;font-weight:bold; color:green;font-size:14pt;text-align:center;
+    }
+    
+        
+    

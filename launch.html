@@ -1,0 +1,98 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <title>CTIP-GA-US011: Combating Trafficking in Persons (CTIP) General Awareness Training</title>
+        <link rel="stylesheet" type="text/css" media="all" href="courseFiles/css/launch.css" />
+        <link rel="stylesheet" type="text/css" media="all" href="courseFiles/css/debug.css" />
+        <script src="courseFiles/js/json2.js" type="text/javascript"></script>
+        <script src="courseFiles/js/jquery-1.11.1.min.js" type="text/javascript"></script>
+        <script src="courseFiles/js/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+        <script src="courseFiles/js/debug-standalone.js" type="text/javascript"></script>
+        <script src="courseFiles/js/launch.js" type="text/javascript"></script>
+        <script src="courseFiles/js/bowser.js" type="text/javascript"></script>
+        <script src="courseFiles/js/parseuri.js" type="text/javascript"></script>
+        <script src="courseFiles/js/ADL_XAPIWrapper.min.js"></script>
+        <script src="courseFiles/js/cmi5-hooks.js"></script>
+        <script src="js/course.js"></script>
+        <script src="js/course_cmi5.js"></script>
+        
+        <style type="text/css">
+		#mainFrame {
+			 position:absolute;
+			 top:61px;
+			 left:275px;
+		}
+		</style>
+    </head>
+    <body onload="" onbeforeunload="saveModuleProgress();">
+            <div id="header">
+                <div id="title">CTIP-GA-US011: Combating Trafficking in Persons (CTIP) General Awareness Training</div>
+                <div id="banner"></div>
+                <div id="header_menu" style="display:none;">
+                    <ul>
+                        <li id="startBtn"><a href="#"><span>Start</span></a></li>
+                        <li id="resumeBtn"><a href="#"><span>Resume</span></a></li>
+                        <li id="previousBtn" style="display:none;"><a href="#"><span>Previous Lesson</span></a></li>
+                        <li id="nextBtn" style="display:none;"><a href="#"><span>Next Lesson</span></a></li>
+                        <li id="suspendBtn" style="display:none;"><a href="#"><span>Suspend</span></a></li>
+                        <li id="helpBtn"><a href="READ_ME.pdf" target="_blank"><span>Help</span></a></li>
+                        <li id="restartBtn" style="display:none;"><a href="#"><span>Restart Course</span></a></li>
+                        <li id="exitBtn"><a href="#"><span>Exit Course</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        <div id="shell">
+            <div id="course_menu">
+				<p><strong>Combating Trafficking in Persons (CTIP) General Awareness Training</strong></p>
+					<ul>
+						<li id="lesson0" class="unvisited"><a href="#" onclick="loadLesson(0);">Combating Trafficking in Persons (CTIP) General Awareness Training</a></li>
+                        <li id="lesson1" class="unvisited"><a href="#" onclick="loadLesson(1);">Post Test</a></li>
+						<li id="lesson2" class="unvisited"><a href="#" onclick="loadLesson(2);">Course Completion</a></li>
+					</ul>            
+			</div><!-- end menu -->
+
+            <div id="content">
+                <!--<div id="dragbar" style="width:5px; height:700px; float:left;cursor:ew-resize;"></div>-->
+                <iframe name="mainFrame" id="mainFrame" src="courseFiles/login.html" frameborder="0" style="display:none;"></iframe>
+                
+                <!-- TODO - Add this Login Form -->
+                <div id="login-form">
+                    <div class="title">Welcome to Combating Trafficking in Persons (CTIP) General Awareness Training</div>
+                    <div class="course">CTIP-GA-US011: Combating Trafficking in Persons (CTIP) General Awareness Training</div>
+                    <div id="content">
+                        <form id="userForm" name="userForm" action="#" method="get" onsubmit="">
+                            <p><strong>If this is your first time visiting this course on this computer, please input your first and last name. If this is not your first time visiting, please enter your first and last name exactly as you entered them on your first visit.</strong>
+                            </p>
+                            <div>
+                                <label for="firstName"><strong>First Name:</strong>
+                                </label>
+                                <input type="text" name="firstName" id="firstName" value="" tabindex="1" />
+                            </div>
+                            <div>
+                                <label for="lastName"><strong>Last Name:</strong>
+                                </label>
+                                <input type="text" name="lastName" id="lastName" value="" tabindex="2" />
+                            </div>
+                            <div>
+                                <button id="submit" tabindex="3">Submit</button>
+                            </div>
+                        </form>
+                        <div>
+                            <p id="instructionTxt"></p>
+                            <p>Browser Detected: <span id="browser-name">Unknown</span> version <span id="browser-version">?</span></p>
+                            <p id="warning-text-version" style="display:none;"><span style="color:#ff0000;font-weight:bold;">Warning:</span><br/>You will need to update your browser settings to continue. To update your browser settings, select 'Tools' and then select 'Compatibility View Settings'. Unclick the box labeled 'Display all websites in Compatibility View'. You must also ensure that 'jten.mil' does NOT appear in the list of websites you've added to Compatibility View.</p>
+                            <p id="warning-text-popups" style="display:none;"><span style="color:#ff0000;font-weight:bold;">Warning:</span><br/>Popups may be blocked on your system.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end content -->
+        </div><!-- end shell -->
+        <div id="debug" class="layer" style="display:none">
+            <iframe frameborder="0" scrolling="no"></iframe>
+            <div id="debug_msg"></div>
+        </div>
+    </body>
+</html>
+
+
