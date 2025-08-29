@@ -11,7 +11,7 @@
         </description>
     </course>
     <au id="https://amazing/CTIP/1"
-        moveOn="CompletedOrPassed" masteryScore="0.3" launchMethod="OwnWindow">
+        moveOn="CompletedOrPassed"  launchMethod="OwnWindow">
         <title>
             <langstring lang="en-US">Introduction to CTIP - Welcome</langstring>
         </title>
@@ -20,6 +20,18 @@
 The CTIP General Awareness WBT provides the information you are required to learn about trafficking in persons.
             </langstring>
         </description>
-        <url>launch.html</url>
+        <url>L01_010.html</url>
+    </au>
+        <au id="https://amazing/CTIP/2"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Prevalence of Trafficking in Persons in DoD</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+The second chapter
+            </langstring>
+        </description>
+        <url>L01_010_2.html</url>
     </au>
 </courseStructure>
