@@ -1,0 +1,45 @@
+/* ---------- LAYOUT -----------*/
+#audiocontrols { /*position: absolute; top: XXXpx; left: XXXpx;*/}
+
+#container { width: 780px; height: 550px; position: relative;}
+#content { position: absolute; top: 110px; left: 40px; padding: 0; width: 700px; z-index: 50;}
+
+h1 { position: absolute; top: 10px; left: 35px; padding: 10px 0;}
+h2 {  position: absolute; top: 80px; left: 40px;}
+
+#nav { position: absolute; top: 482px; left: 349px; z-index: 100;}
+
+#pagecount { position: absolute; top: 510px; left: 600px; width: 95px; text-align: center;}
+
+.popup h2 { position: absolute; top: 5px; left: 15px;}
+.popup #content { position: absolute; top: 60px; left: 15px; width: 90%;}
+.popup #close { position: absolute; top: 3px; right: 10px;}
+.popup #closeprompt { padding-top: 15px;}
+
+#subnav { position: absolute; top: 499px; left: 118px; z-index: 100;}
+
+
+/* ---------- SKIN -----------*/
+
+body.popup { background: url(03/skin/popup_background.gif) repeat-x left top;}
+
+#container { background: url(03/skin/background.gif) no-repeat left top;}
+#content a { color: #274383; text-decoration:underline; cursor:pointer;}
+
+h1 { color: #ffcc00;}
+h2 { color: #000000;}
+
+#pagecount { color: #FFFFFF;}
+
+.popup #close a { color: #FFFFFF; text-decoration: none;}
+
+.menupage #content img { background: none; border: none;}
+
+table.datatable { border-top: 1px solid #666666; border-left: 1px solid #666666;}
+table.datatable th,
+table.datatable td { border-bottom: 1px solid #666666; border-right: 1px solid #666666;}
+table.datatable th { background: #CCCCCC;}
+
+
+/* ---------- TYPO -----------*/
+h2 { font: bold 1.2em Geneva, Arial, Helvetica, sans-serif;}

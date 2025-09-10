@@ -1,0 +1,23 @@
+/*~~~~~~~~~~~~~~~~ CSS HACKS ~~~~~~~~~~~~~~~~~~*/
+/*~~~~ these are items that are currently troublesome for CSS layout that will hopefully*/
+/*~~~~ be fixed in future browser*/
+
+.clearfix:after {
+    content: "."; 
+    display: block; 
+    height: 0; 
+    clear: both; 
+    visibility: hidden;
+}
+
+.movieContainer
+{
+	position:absolute;
+	left:-300px;
+	height:0px;
+	width:0px;
+}
+
+/* Hides from IE-mac \*/
+* html .clearfix {height: 1%;}
+/* End hide from IE-mac */

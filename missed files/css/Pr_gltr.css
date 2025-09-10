@@ -1,0 +1,8 @@
+#graphic{ float: left; margin-right: 15px;}
+#graphic_wrapper{ float: left; margin-right: 15px;}
+#graphic_table{ float: left; margin-right: 15px;}
+#content ol, #content ul { margin-left: 0;}
+
+#text p.pdf { float: left;}
+#text p.word { float: left;}
+

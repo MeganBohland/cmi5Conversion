@@ -1,0 +1,73 @@
+.formQuiz ul {
+	list-style-type:none;
+	margin-left:1em;
+	padding-left:0;
+	}
+.formQuiz li {
+	/*padding-left:30px;*/
+	padding:2px 36px;
+	text-indent:-20px;
+	}
+.formQuiz .imgMc {
+	width:350px;
+	}
+.formQuiz .imgMc span {
+	display:block;
+	float:left;
+	height:20px;
+	width:20px;
+	}
+.formQuiz .imgMc img {
+	float:left;
+	}
+.correct,
+.shouldCheck,
+.incorrect {
+	background-position:left center;
+	background-repeat:no-repeat;
+	}
+.correct {
+	background:url("../media/icon_correct.png") 0px 0px no-repeat;
+	}
+.shouldCheck {
+	background:url("../media/icon_shouldCheck.png") 0px 3px no-repeat;
+	}
+.incorrect {
+	background:url("../media/icon_incorrect.png") 0px 0px no-repeat;
+	color:#CCC;
+	}
+a.buttonText {
+	/*background:url(../images/button_left.png) center left no-repeat;*/
+	background:#4d2b52;
+	color:#FFF;
+	font-size:15px;
+	font-weight:bold;
+	height:26px;
+	line-height:1em;
+	margin-top:1em;
+	padding:6px 0 7px 18px;
+	text-decoration:none;
+	width:91px;
+	}
+a.buttonText span {
+	/*background:url(../images/testSubmitBtn.jpg) center center no-repeat;*/
+	padding:5px 18px 6px 0;
+	height:30px;
+	}
+a.buttonText:visited,
+a.buttonText:visited span {
+	font-weight:bold;
+	color:#FFF;
+}
+a.buttonText:hover {
+	background:#7e5d83;
+	/*color:#D29749;*/
+	font-weight:bold;	
+	}
+a.buttonText:active {
+	color:#FFF;
+	font-weight:bold;	
+	}
+.fbContent {
+	/*font-weight:bold;*/
+}

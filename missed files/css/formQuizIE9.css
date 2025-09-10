@@ -1,0 +1,10 @@
+.formSubmit a.buttonText {
+	padding-bottom: 0px;
+	padding-top: 0px;
+	}
+.formSubmit a.buttonText span {
+	position: relative;
+	top: 10px;
+	padding-bottom: 6px;
+	padding-top: 8px;
+	}

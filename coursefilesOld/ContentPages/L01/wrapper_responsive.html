@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <!-- Font Awesome icons -->
+    <link rel="stylesheet" href="../../css/fontAwesome/css/fontawesome-all.min.css" />
+    <!-- Video -->
+    <link rel="stylesheet" href="../../css/video-js.min.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../css/vsCommon.css" />
+	
+    <title>Wrapper</title>
+  </head>
+  <body>
+    <noscript>
+      <p>Make sure your browser has JavaScript support.</p>
+    </noscript>
+
+    <div id="wrapper-container" class="container">
+        <!-- Header -->
+        <div class="row m-0 p-0 header">
+          <div class="col-auto m-0 p-0 wrapperHeaderMenuButtonContainer">
+            <button id="options-menu-button" type="button" class="btn rounded-0" data-toggle="collapse" data-target="#menuButtonToggleContent" aria-controls="menuButtonToggleContent" aria-expanded="false" aria-label="Options">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+          </div>
+          <div class="col pb-2 wrapperHeaderTextContainer">
+            <h1 class="wrapperHeaderText">Combating Trafficking in Persons (CTIP)</h1>
+          </div>
+          <div class="col-auto d-none d-sm-table-cell p-2 wrapperHeaderSealContainer">
+            <img src="../../css/images/CTIP_Coin_Header.png" alt="" />
+          </div>
+        </div>
+
+        <div class="row m-0 p-0">
+          <div class="col m-0 p-0">
+            <div class="collapse" id="menuButtonToggleContent">
+              <div class="wrapperMenu">
+                <div class="row m-0 p-0">
+                  <div class="col-12 p-0 col-md px-md-1">
+                    <button id="nav_home" type="button" class="btn btn-block rounded-0 mb-1 mb-md-0">Home</button>
+                  </div>
+                  <div class="col-12 p-0 col-md px-md-1">
+                    <button id="subnav_508" type="button" class="btn  btn-block rounded-0 mb-1 mb-md-0">508</button>
+                  </div>
+                  <div class="col-12 p-0 col-md px-md-1">
+                    <button id="subnav_help" type="button" class="btn  btn-block rounded-0 mb-1 mb-md-0">Help</button>
+                  </div>
+                  <div class="col-12 p-0 col-md px-md-1">
+                    <button id="subnav_resources" type="button" class="btn btn-block rounded-0 mb-1 mb-md-0">Resources</button>
+                  </div>
+                  <div class="col-12 p-0 col-md px-md-1">
+                    <button id="subnav_glossary" type="button" class="btn btn-block rounded-0 mb-1 mb-md-0">Glossary</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="row m-0 p-0">
+          <div class="col m-0 p-0 wrapperPageContentParent">
+            <div id="rdLoadingScreen"></div>
+            <div class="page-content" id="page-content-container"></div>
+            <div id="classification_header">UNCLASSIFIED</div>
+            <div id="classification_footer">UNCLASSIFIED</div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+          <div class="row m-0 p-0 justify-content-between justify-content-md-end footer">
+            <div class="col-12 px-0">
+              <div id="nextIncompletePrompt" class="hidden wrapperIncompleteNextPrompt">
+                <p>Page is not complete. Please view all of the page contents before advancing.</p>
+              </div>
+              <div id="pageCompletePrompt" class="hidden wrapperCompleteNextPrompt" data-standard-page-complete-direction="Select NEXT to continue." data-last-page-complete-direction="To take the post test, please select the Next Lesson tab at the top of the screen.">
+                <!--<p>Page is complete. Select <span id="completeDirection">NEXT</span> to continue.</p>-->
+                <p>Page is complete. <span id="completeDirection"></span></p>
+              </div>
+            </div>
+            <div class="col-auto m-0 p-0">
+              <button id="nav_back" type="button" class="btn rounded-0">
+                Back
+                <span class="bottom-line-over-effect r-to-l"></span>
+              </button>
+            </div>
+            <div class="col-auto m-0 p-0 text-center">
+              <div id="pageNumber">
+                Page&nbsp;<span id="currPage"></span>&nbsp;of&nbsp;<span id="totPage"></span>
+              </div>
+            </div>
+            <div class="col-auto m-0 p-0">
+                <button id="nav_next" type="button" class="btn rounded-0" data-show-incomplete-prompt="nextIncompletePrompt">
+                  Next
+                  <span class="bottom-line-over-effect l-to-r"></span>
+                </button>
+                <!--<button id="nav_next" type="button" class="btn rounded-0">
+                  Next
+                  <span class="bottom-line-over-effect l-to-r"></span>
+                </button>-->
+              </div>
+          </div>
+    </div>
+
+    <script src="../../js/courseProperties.js"></script>
+    <script src="js/progress.js"></script>
+    <script src="../../js/gsap.min.js"></script>
+    <script src="../../js/ScrollMagic.min.js"></script>
+    <script src="../../js/animation.gsap.min.js"></script>
+    <!--<script src="../../js/debug.addIndicators.min.js"></script>-->
+    <script src="../../js/vsLib.js"></script>	
+  </body>
+</html>

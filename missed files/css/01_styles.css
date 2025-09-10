@@ -1,0 +1,51 @@
+/* ---------- LAYOUT -----------*/
+#audiocontrols { position: absolute; top: 685px; left: 546px;}
+
+#container { width: 1000px; height: 750px; position: relative;}
+#content { position: absolute; top: 175px; left: 95px; padding: 0; width: 850px; z-index: 50;}
+#content img { margin: 5px 10px 10px 10px; padding: 3px;}
+
+h1 { position: absolute; top: 10px; left: 35px; padding: 10px 0;}
+h2 {  position: absolute; top: 45px; left: 35px;}
+h3 { position: absolute; left: 75px; top: 135px; padding-bottom: 10px;}
+
+.menupage #content img { margin: 0; padding: 0;}
+
+#nav { position: absolute; top: 671px; left: 442px; z-index: 100;}
+
+#pagecount { position: absolute; top: 698px; left: 700px; width: 95px; text-align: center;}
+
+.popup h2 { position: absolute; top: 5px; left: 15px;}
+.popup #content { position: absolute; top: 60px; left: 15px; width: 90%;}
+.popup #close { position: absolute; top: 3px; right: 10px;}
+.popup #closeprompt { padding-top: 15px;}
+
+#subnav { position: absolute; top: 685px; left: 131px; z-index: 100;}
+
+
+/* ---------- SKIN -----------*/
+
+body.popup { background: url(01/skin/popup_background.gif) repeat-x left top;}
+
+#container { background: url(01/skin/background.gif) no-repeat left top;}
+#content a { color: #274383; text-decoration:underline; cursor:pointer;}
+#content img { background: #FFFFFF; border: 1px solid #CCCCCC;}
+
+h1 { color: #ffcc00;}
+h2 { color: #FFFFFF;}
+
+#pagecount { color: #FFFFFF;}
+
+.popup #close a { color: #FFFFFF; text-decoration: none;}
+
+.menupage #content img { background: none; border: none;}
+
+table.datatable { border-top: 1px solid #666666; border-left: 1px solid #666666;}
+table.datatable th,
+table.datatable td { border-bottom: 1px solid #666666; border-right: 1px solid #666666;}
+table.datatable th { background: #CCCCCC;}
+
+
+/* ---------- TYPO -----------*/
+h2 { font: bold 1.4em Geneva, Arial, Helvetica, sans-serif;}
+h3 { font-size: 1.2em;}

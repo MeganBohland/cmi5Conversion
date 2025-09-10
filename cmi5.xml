@@ -20,7 +20,7 @@
 The CTIP General Awareness WBT provides the information you are required to learn about trafficking in persons.
             </langstring>
         </description>
-        <url>L01_010.html</url>
+        <url>coursefiles/L01_010.html</url>
     </au>
         <au id="https://amazing/CTIP/2"
         moveOn="CompletedOrPassed" launchMethod="OwnWindow">
@@ -32,6 +32,30 @@ The CTIP General Awareness WBT provides the information you are required to lear
 The second chapter
             </langstring>
         </description>
-        <url>L01_010_2.html</url>
+        <url>coursefiles/L01_010_2.html</url>
+    </au>
+        <au id="https://amazing/CTIP/3"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Trafficking in Persons Cases</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                Trafficking in Persons Cases
+            </langstring>
+        </description>
+        <url>coursefiles/L01_010_3.html</url>
+    </au>
+        <au id="https://amazing/CTIP/4"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">How TIP Can Affect Mission Readiness</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                How TIP Can Affect Mission Readiness
+            </langstring>
+        </description>
+        <url>coursefiles/L01_010_4.html</url>
     </au>
 </courseStructure>

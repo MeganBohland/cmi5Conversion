@@ -69,12 +69,20 @@ function CourseCmi5Plugin() {
  * @param {Function} callbackOnStatementSend  Callback to call whenever any xAPI or cmi5 statement is sent.
  */
 CourseCmi5Plugin.prototype.initialize = function (callbackOnInit, callbackOnStatementSend) {
-    // Cmi5.enableDebug();
+     Cmi5.enableDebug();
 
-    this.callbackOnStatementSend = callbackOnStatementSend;
-    this.cmi5 = new Cmi5(document.location.href);
+    //this.callbackOnStatementSend = callbackOnStatementSend;
+    //this.cmi5 = new Cmi5(document.location.href);
+    
+    console.log("Initializing CMI5 Plugin...");
+  this.callbackOnStatementSend = callbackOnStatementSend;
+  this.cmi5 = new Cmi5(document.location.href);
+  console.log("Cmi5 object created:", this.cmi5);
     if (!this.cmi5.getEndpoint()) {
+        console.error("No endpoint found in launch URL");//
         this.cmi5 = null;
+            return;////
+////
     } else {
         this.cmi5.start({
             launchData: err => {
@@ -337,7 +345,7 @@ CourseCmi5Plugin.prototype.experienced = function (pageId, name, overallProgress
         }
     };
     // If we can, also save the progress value, ignore values that are out of range.
-    if (!Number.isNaN(overallProgress) && overallProgress > 0 && overallProgress < 100) {
+    /*if (!Number.isNaN(overallProgress) && overallProgress > 0 && overallProgress < 100) {
         if (!stmt.result) {
             stmt.result = {};
         }
@@ -345,7 +353,7 @@ CourseCmi5Plugin.prototype.experienced = function (pageId, name, overallProgress
             stmt.result.extensions = {};
         }
         stmt.result.extensions["https://w3id.org/xapi/cmi5/result/extensions/progress"] = Math.round(overallProgress);
-    }
+    }*/
     return this.sendStatement(stmt);
 }
 

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lesson Loader</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    #content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    #nav {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background: #eee;
+    }
+  </style>
+</head>
+<body>
+  <div id="content" class="content" role="main">
+    <iframe id="lessonFrame" src=""></iframe>
+  </div>
+  <div id="nav">
+    <button onclick="prevPage()">Previous</button>
+    <button onclick="nextPage()">Next</button>
+  </div>
+
+  <script>
+    // List of lesson files in order
+    const lessonPages = [
+      "L01_010_1.html",
+      "L01_010_2.html",
+      "L01_010_3.html",
+      "L01_010_4.html",
+      "L01_010_5.html"
+    ];
+
+    let currentIndex = 0;
+
+    function loadPage(index) {
+      if (index >= 0 && index < lessonPages.length) {
+        document.getElementById("lessonFrame").src = lessonPages[index];
+        currentIndex = index;
+      }
+    }
+
+    function nextPage() {
+      if (currentIndex < lessonPages.length - 1) {
+        loadPage(currentIndex + 1);
+      }
+    }
+
+    function prevPage() {
+      if (currentIndex > 0) {
+        loadPage(currentIndex - 1);
+      }
+    }
+
+    // Load the first page on start
+    loadPage(0);
+  </script>
+</body>
+</html>

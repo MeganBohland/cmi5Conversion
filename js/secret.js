@@ -99,7 +99,7 @@
 
     // Static version info
     Cmi5.VERSION = VERSION;
-    Cmi5.DEBUG = false;
+    Cmi5.DEBUG = true;
 
     // Enable/disable debug logging
     Cmi5.enableDebug = () => { Cmi5.DEBUG = true; };

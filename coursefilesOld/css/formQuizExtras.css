@@ -1,0 +1,22 @@
+.stimWrap {
+    /*background-color:#D29749;*/
+    border-top:1px solid #600;
+    color:#333333;
+    font-weight:bold;
+    margin-bottom:2px;
+    padding-top:10px;
+}
+.formQuiz ul {
+    margin-top:0;
+    }
+.formQuiz select {
+    margin-top:1px;
+    }
+p.formSubmit {
+    clear:both;	
+    }
+/*.incorrect,
+.correct,
+.shouldCheck {
+    background-image:none;
+    }*/

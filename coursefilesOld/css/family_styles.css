@@ -1,0 +1,53 @@
+/* ---------- LAYOUT -----------*/
+#audiocontrols { position: absolute; top: 644px; left: 386px;}
+
+#nav .prev { position: absolute; top: 644px; left: 783px;}
+#nav .next { position: absolute; top: 644px; left: 876px;}
+
+#pagecount { position: absolute; top: 82px; left: 875px; width: 100px; text-align: center;}
+
+#subnav { position: absolute; top: 644px; left: 0;}
+#subnav #subnav_li_menu{ position: absolute; top: -567px; left: 12px;}
+#subnav #subnav_li_end { position: absolute; top: -638px; left: 929px;}
+
+#content { position: absolute; top: 146px; left: 30px; width: 920px;}
+
+#graphic_wrapper { margin-left: 60px;}
+
+h1 { position: absolute; top: 23px; left: 32px;}
+h2 { position: absolute; top: 80px; left: 88px;}
+h3 { position: absolute; top: 115px; left: 30px;}
+
+.menupage h2 { position: absolute; top: -100px; left: -100px;}
+.menupage h3 { position: absolute; top: 115px; left: 30px;}
+
+.popup h2 { position: absolute; top: 5px; left: 15px;}
+.popup #content { position: absolute; top: 40px; left: 15px; width: 90%;}
+.popup #text { position: static;}
+.popup #close { position: absolute; top: 3px; right: 10px;}
+.popup #closeprompt { padding-top: 15px;}
+
+#dlink { position: absolute; top: 473px; left: 10px;}
+
+/* ---------- SKIN -----------*/
+body { background: url(skin/body.jpg) no-repeat left top;}
+body.popup { background: url(skin/popup_background.gif) repeat-x left top;}
+
+h1 { color: #003F72;}
+h2, #pagecount { color: #FFFFFF;}
+
+.popup h2 { color: #FFFFFF;}
+.popup #close a { color: #FFFFFF; text-decoration: none;}
+
+/* ---------- TYPO -----------*/
+body { font-family: Calibri, Georgia, Arial; font-weight: normal;}
+
+h1 { font: normal 2.2em Georgia, Calibri, Arial;}
+h2 { font: bold 1em Calibri, Georgia, Arial;}
+h3 { font: bold 1.2em Calibri, Georgia, Arial;}
+
+#lsn1004 h1 { font-size: 2em;}
+
+#dlink { font: normal 9px Calibri, Georgia, Arial;}
+
+#pagecount { font: bold 1em Calibri, Georgia, Arial;} 

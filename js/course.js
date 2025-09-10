@@ -88,9 +88,16 @@ function Course(opts) {
     this.videoTrackingData = {};
     // If true, don't save interactions while saving the passed/completed, delay until explicit flush.
     this.trackingDelayInteractionSave = true;
-    this.renderNavTree();
+    //this.renderNavTree();
 
-    this.trackingPlugin.initialize(this.postInit.bind(this), this.trackingActivityUpdate.bind(this));
+   // this.trackingPlugin.initialize(this.postInit.bind(this), this.trackingActivityUpdate.bind(this));
+try {
+  this.trackingPlugin.initialize(this.postInit.bind(this), this.trackingActivityUpdate.bind(this));
+} catch (err) {
+  console.error("Tracking plugin failed to initialize:", err);
+  return {}; // return at least an empty object so 'course' is not undefined
+}
+
 }
 
 /**
