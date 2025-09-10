@@ -266,112 +266,143 @@ if (!onComplete) {
   }
 //});
 
-// Hook quiz buttons
-const kbqBlocks = document.querySelectorAll('[data-step-type="kbq"]');
+// Hook KBQ CONTINUE button (same as other continue buttons)
+document.querySelectorAll(".expandingPageContinueButton.preKBQExpandButton")
+  .forEach(btn => {
+    btn.addEventListener("click", () => {
+      console.log("➡️ KBQ Continue clicked");
+      currentPart++;
 
-// Set pass threshold (number or fraction)
-const PASS_THRESHOLD = 0.75; // 75% correct, or set a fixed number below
+      sectionTitle =
+        (document.querySelector("h1")?.textContent.trim()) ||
+        (document.querySelector("h2")?.textContent.trim()) ||
+        (topPageTitle);
 
-kbqBlocks.forEach((block, blockIndex) => {
-  const submitBtn = block.querySelector('.submit-btn');
-  if (!submitBtn) {
-    console.warn("No submit button found for KBQ block", blockIndex + 1);
-    return;
-  }
+      course.experienced(
+        `${topPageTitle}-part${currentPart}`,
+        `${sectionTitle}, part ${currentPart} of ${totalParts}`,
+        Math.round((currentPart / totalParts) * 100)
+      );
 
-  console.log("Attaching KBQ handler for block", blockIndex + 1);
-
-submitBtn.addEventListener('click', () => {
-  
-      console.log("🔥 KBQ submit clicked for block", blockIndex + 1);
-
-  
-  const questionGroups = Array.from(block.querySelectorAll('.kbq-choices'));
-    if (!questionGroups.length) return;
-
-    let correctCount = 0;
-    const totalQuestions = questionGroups.length;
-    const interactionList = []; // <-- collect interaction objects
-
-    questionGroups.forEach((group, groupIndex) => {
-        const selected = group.querySelector('input[type="radio"]:checked');
-        if (!selected) return;
-
-        const correct = selected.value === "1";
-        if (correct) correctCount++;
-
-        const questionText = group.closest('.row').querySelector('.kbq-question p')?.textContent.trim() || `Question ${groupIndex + 1}`;
-
-        // 🔑 Build the interaction object in the format captureInteractions expects
-        const interactionObj = {
-            testId: `kbq${blockIndex + 1}`,
-            interactionId: `q${groupIndex + 1}`,
-            interactionType: "choice",
-            name: questionText,
-            description: questionText,
-            userAnswers: [selected.id],     // learner’s chosen option (by id or value)
-            correctAnswers: [group.querySelector('input[value="1"]').id], // the correct option id
-            success: correct,
-            choices: Array.from(group.querySelectorAll('input[type="radio"]')).map(input => ({
-                id: input.id,
-                description: { "en-US": input.parentElement.textContent.trim() }
-            }))
-        };
-
-        interactionList.push(interactionObj);
+      console.log(
+        `📖 ${topPageTitle}: part ${currentPart}/${totalParts}`
+      );
     });
+  });
 
-    // 🚀 Send all answered questions in one go
-    if (interactionList.length > 0) {
-        course.captureInteractions(interactionList)
-            .then(() => console.log("✅ Sent ANSWERED statements for KBQ block", blockIndex + 1))
-            .catch(err => console.error("❌ Error sending KBQ answered statements:", err));
+
+// Hook KBQ SUBMIT buttons (inside each KBQ question)
+document.querySelectorAll(".kbqSubmit").forEach((submitBtn, qIndex) => {
+  submitBtn.addEventListener("click", () => {
+    console.log("📝 KBQ Submit clicked (question index:", qIndex, ")");
+
+    const group = submitBtn.closest("[data-step-type='kbq']");
+    if (!group) return;
+
+    const choices = group.querySelectorAll("input[type='radio']");
+    const selected = group.querySelector("input[type='radio']:checked");
+
+    if (!selected) {
+      console.warn("⚠️ No answer selected.");
+      return;
     }
 
-    // Optional: check pass/fail logic here
-    const passCountThreshold = typeof PASS_THRESHOLD === "number" && PASS_THRESHOLD <= 1
-        ? Math.ceil(PASS_THRESHOLD * totalQuestions)
-        : PASS_THRESHOLD;
+    const correctInput = group.querySelector("input[value='1']");
+    const correct = selected.value === "1";
+    const questionText =
+      group.querySelector(".kbq-question p")?.textContent.trim() ||
+      `Question ${qIndex + 1}`;
 
-    const blockPassed = correctCount >= passCountThreshold;
-    block.dataset.kbqPassed = blockPassed;
+    // Build interaction object for CMI5
+    const interactionObj = {
+      testId: `kbq${qIndex + 1}`,
+      interactionId: `q${qIndex + 1}`,
+      interactionType: "choice",
+      name: questionText,
+      description: questionText,
+      userAnswers: [selected.id], // what learner chose
+      correctAnswers: correctInput ? [correctInput.id] : [],
+      success: correct,
+      choices: Array.from(choices).map(input => ({
+        id: input.id,
+        description: { "en-US": input.parentElement.textContent.trim() }
+      }))
+    };
 
-    console.log(`KBQ block ${blockIndex + 1}: ${correctCount}/${totalQuestions} correct | Passed? ${blockPassed}`);
+    // Send answered statement
+    course.captureInteractions([interactionObj])
+      .then(() => console.log(`✅ Sent ANSWERED for ${interactionObj.testId}`, interactionObj))
+      .catch(err => console.error("❌ Error sending KBQ answered statement:", err));
+
+    console.log(
+      `Result: ${correct ? "✔️ Correct" : "❌ Incorrect"} | User chose: ${selected.id}`
+    );
+  });
 });
+
 
 });// end document ready
 
 
 function finishCourse() {
-  console.log("Finishing course...");
+  console.log("🏁 Finishing course...");
 
-  console.log("PPages viewed here is " + currentPart + " out of " + totalParts);
-  
+  console.log(`Pages viewed: ${currentPart} of ${totalParts}`);
+
   if (currentPart < totalParts) {
-    // They may be quitting early, add this last part and see if it equals total they are good
     currentPart++;
-  // They completed the last section
-      if (currentPart >= totalParts) {
-console.log(`Calling course.experienced...✅ Clicked: ${sectionTitle} | Viewed ${currentPart}/${totalParts}`);
-     course.experienced(
-        `${topPageTitle}-part${currentPart}`,
-        `${sectionTitle}, part ${currentPart} of ${totalParts}`,
-        Math.round((currentPart / totalParts) * 100)
-      );
-    
-        // Full completion
-    course.passAndComplete({ scaled: 1.0 }).then(() => {
-      course.exit();
-    });
-   
+  }
+
+  // Always log the last experienced
+  course.experienced(
+    `${topPageTitle}-part${currentPart}`,
+    `${sectionTitle}, part ${currentPart} of ${totalParts}`,
+    Math.round((currentPart / totalParts) * 100)
+  );
+
+  if (currentPart >= totalParts) {
+    // ✅ Full completion
+    console.log("✅ Marking course as passed and complete");
+
+    // Try passAndComplete if available
+    if (typeof course.passAndComplete === "function") {
+      course.passAndComplete({ scaled: 1.0 })
+        .then(() => {
+          console.log("➡️ passAndComplete succeeded, calling exit()");
+          if (typeof course.exit === "function") {
+            course.exit();
+          } else if (typeof course.terminate === "function") {
+            course.terminate();
+          }
+          window.close(); // fallback
+        })
+        .catch(err => {
+          console.error("❌ Error during passAndComplete:", err);
+          if (typeof course.terminate === "function") course.terminate();
+        });
+    } else {
+      // Fallback if passAndComplete not supported
+      if (typeof course.completed === "function") {
+        course.completed("Course finished", 100);
+      }
+      if (typeof course.terminate === "function") {
+        course.terminate();
+      }
+      window.close();
+    }
+
   } else {
-    // Learner exited without finishing everything
-    console.warn("Course ended early, marking as terminated only.");
-    course.exit();
+    // ❌ Exited early
+    console.warn("Course ended early, terminating only.");
+    if (typeof course.exit === "function") {
+      course.exit();
+    } else if (typeof course.terminate === "function") {
+      course.terminate();
+    }
   }
 }
-}
+
 });
 
-})
 }
+
