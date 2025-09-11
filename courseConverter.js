@@ -1,112 +1,91 @@
+// Course converter for CTIP html files. Utilizes course_cmi5.js
 
-let pagesViewed = 0;
-let totalPages;
 let sectionTitle;
-let pageSectionsViewed = 0;
-let completedSections = new Set();   // tracks unique sections completed
 let currentPart = 0;
 let totalParts;
 let topPageTitle;
 let course;
 let videos;
-function initCourse() {
- 
 
+
+function initCourse() {
+
+// Wait for page to load
 document.addEventListener("DOMContentLoaded", function () {
 
-  // Top page H1
+  // Try to get the top page title, for tracking.
   topPageTitle = document.querySelector("h1")?.textContent.trim() || "Untitled Page";
 
-  // totalPages = document.querySelectorAll(".min-vh-100").length;
   document.querySelectorAll(".container").forEach(container => {
+    // Look for expanding sections to see how many 'parts' are on this page. for passing completion/tracking.
     // Count sections with expand-order inside this container
     const expandSections = container.querySelectorAll("[data-expand-order]").length;
     totalParts = expandSections + 1; // +1 for the always-visible first section
-    //let currentPart = 0;
+    
+    // Debugging
     console.log(`Total parts in this container: ${totalParts}`);
-
-    console.log('what is current part at beginning', currentPart);
         
     // Init CMI5 only once
     course = new CourseCmi5Plugin();
 
     course.initialize(
+      // Debugging
       () => console.log("CMI5 Initialized, ready to send statements."),
       (result, error, active) => console.log("Statement callback", { result, error, active })
     )
-// Accordion completion tracking
-      // Stores which sub-actions are done for each accordion
-      const accordionProgress = {};
+      // Stores which sub-actions are done for each accordion for accordion completion tracking
 
-  // Hook all Continue buttons.
-  const continueButtons = document.querySelectorAll(".expandingPageContinueButton")
-    .forEach(btn => {
-      btn.addEventListener("click", () => {
-        console.log('what is current part before incrementing:', currentPart);
-        currentPart++;
+    // Hook all Continue buttons.
+    const continueButtons = document.querySelectorAll(".expandingPageContinueButton")
+      .forEach(btn => {
+        btn.addEventListener("click", () => {
+          //Debugging
+          console.log('what is current part before incrementing:', currentPart);
+          // We want to increment parts on continue button, as that is what their pages use to advance, and only 
+          // when it is completed.
+          currentPart++;
 
-      sectionTitle =
-        (container.querySelector("h1")?.textContent.trim()) ||
-        (container.querySelector("h2")?.textContent.trim()) ||
-        (topPageTitle);
+        // Attempt to get section title for better tracking
+        sectionTitle =
+          (container.querySelector("h1")?.textContent.trim()) ||
+          (container.querySelector("h2")?.textContent.trim()) ||
+          (topPageTitle);
 
-      console.log("Launch mode:", course.launchMode);
-
-    console.log(`Calling course.experienced...✅ Clicked: ${sectionTitle} | Viewed ${currentPart}/${totalParts}`);
-     course.experienced(
-        `${topPageTitle}-part${currentPart}`,
-        `${sectionTitle}, part ${currentPart} of ${totalParts}`,
-        Math.round((currentPart / totalParts) * 100)
+          // Debugging
+          console.log(`Calling course.experienced...✅ Clicked: ${sectionTitle} | Viewed ${currentPart}/${totalParts}`);
+          
+          // Send cmi5 statement to show this part has been experienced
+          course.experienced(
+              `${topPageTitle}-part${currentPart}`,
+              `${sectionTitle}, part ${currentPart} of ${totalParts}`,
+              Math.round((currentPart / totalParts) * 100)
+            );
+        
+        // Debugging
+        console.log(
+            `📖 ${topPageTitle}: part ${currentPart}/${totalParts}`
+          );
+        }
       );
+    });
 
-    console.log(
-        `📖 ${topPageTitle}: part ${currentPart}/${totalParts}`
-      );
-    }
-  );
-});
-// For each video
- // ✅ Grab all videos
+  // Trackinging video play/pause/complete
+  // ✅ Grab all videos
   const videos = document.querySelectorAll("video");
+// --- TRACK ACCORDION PROGRESS ---
+const accordionProgress = {}; // keeps track of video/modal per accordion
 
-videos.forEach(video => {
+// --- HOOK ALL VIDEOS ---
+document.querySelectorAll("video").forEach(video => {
+  const vidId = video.id || `video-${Math.random().toString(36).substr(2, 5)}`;
+  video.id = vidId;
 
-  // I think we will need to chnge the random nees and assign ids
-      const vidId = video.id || `video-${Math.random().toString(36).substr(2, 5)}`;
-        let vidTitle = video.getAttribute("title");
+  // Try to get a title
+  let vidTitle = video.getAttribute("title") ||
+    video.closest(".collapse")?.querySelector("button")?.textContent?.trim() ||
+    video.src?.split("/").pop().replace(/\.[^/.]+$/, "") ||
+    vidId;
 
-  // If no title , try grabbing nearby button/heading text
-if (!vidTitle) {
-  const collapseParent = video.closest(".collapse");
-  if (collapseParent) {
-    const labelledBy = collapseParent.getAttribute("aria-labelledby");
-    if (labelledBy) {
-      const controllingButton = document.getElementById(labelledBy);
-      if (controllingButton) {
-        vidTitle = controllingButton.textContent.trim();
-      }
-    }
-  }
-}
-  // If still nothing, try to derive from src filename
-  if (!vidTitle) {
-    const src = video.getAttribute("src") || video.querySelector("source")?.getAttribute("src");
-    if (src) {
-      vidTitle = src.split("/").pop().replace(/\.[^/.]+$/, ""); // filename without extension
-    }
-  }
-
-
-  // Final fallback = ID
-  if (!vidTitle) vidTitle = vidId;
-
-  // ATTACH INFO TO VID
-    // ✅ Attach metadata for course_cmi5.js to use
-  video.dataset.title = vidTitle;   // custom title
-  video.id = vidId;                 // make sure it has a stable ID
-
-  // oK LETS TRY TO UIS THE COURSECIMI5 METHODS
-    // Build the videoObj that _videoMakeStatement expects
   const videoObj = {
     objectId: `${window.location.href.replace(/[#?].*$/, "")}#video-${vidId}`,
     name: vidTitle,
@@ -118,144 +97,99 @@ if (!vidTitle) {
     completion: false,
   };
 
-      console.log(`🎬 Hooking video: ${vidId} Whose title is : ${vidTitle}`);
+  // Link video to its accordion (if any)
+  const parentCollapse = video.closest(".collapse");
+  const buttonUnit = parentCollapse
+    ? document.querySelector(`[data-target="#${parentCollapse.id}"]`)?.closest(".buttonUnit")
+    : null;
+  const buttonId = buttonUnit?.querySelector("button")?.id;
 
-      video.addEventListener("play", () => {
-        console.log(`▶️ Started ${vidId}`);
-        //course.experienced(
-        //  `${topPageTitle}-${vidTitle}-started`,
-         // `Started video: ${vidTitle}`,
-        //  0
-        //);
-        // Add play?
-        course.videoPlay(videoObj);
-      });
+  // --- EVENT HOOKS ---
+  video.addEventListener("play", () => {
+    console.log(`▶️ Started ${vidTitle}`);
+    course.videoPlay(videoObj);
+  });
 
-      video.addEventListener("pause", e => {
-     // video.addEventListener("pause", () => {
+  video.addEventListener("pause", e => {
     if (e.target.currentTime !== e.target.duration) {
-     // videoData.playedSegments.push([videoData.lastSeen, e.target.currentTime]);
       console.log(`⏸️ Paused ${vidTitle} at ${e.target.currentTime}s`);
+      course.videoPause(videoObj);
+    }
+  });
 
-        if (!video.ended) {
-          console.log(`⏸️ Paused ${vidTitle}`);
-          /*course.experienced(
-            `${topPageTitle}-${vidTitle}-paused`,
-            `Paused video: ${vidTitle}`,
-            0
-          );*/
-        course.videoPause(videoObj);
-        }
-      }
-    });
+  video.addEventListener("ended", () => {
+    console.log(`✅ Finished ${vidTitle}`);
+    course.videoCompleted(videoObj);
 
-      //
+    if (buttonId) {
+      accordionProgress[buttonId] = accordionProgress[buttonId] || {};
+      accordionProgress[buttonId].video = true; // ✅ only mark complete here
 
-      video.addEventListener("ended", () => {
-        console.log(`✅ Finished ${vidTitle}`);
-
-        // Ok maybe this shouldnt be part of currentParts
-        //currentPart++;
-        //const progress = Math.round((currentPart / totalParts) * 100);
-/*
-        course.experienced(
-          `${topPageTitle}-${vidTitle}-ended`,
-          `Finished video: ${vidTitle}`,
-          progress
-        );*/
-        // videocompleted:
-        course.videoCompleted(videoObj);
-        console.log(`📖 ${topPageTitle}: part ${currentPart}/${totalParts} (via video)`);
-      });
-  
-    //end video for each
- 
-
-  //???
-       // --- LINK VIDEO TO ACCORDION ---
-          const parentCollapse = video.closest('.collapse');
-          if (parentCollapse) {
-            const buttonUnit = document.querySelector(`[data-target="#${parentCollapse.id}"]`)?.closest('.buttonUnit');
-            if (buttonUnit) {
-              const buttonId = buttonUnit.querySelector('button').id;
-              accordionProgress[buttonId] = accordionProgress[buttonId] || {};
-              accordionProgress[buttonId].video = true;
-
-              // If all required actions are done (video + modal), show checkmark
-              const checkmark = buttonUnit.querySelector('.button-icon .fas[data-on-complete="show"]');
-              if (checkmark && accordionProgress[buttonId].video && (accordionProgress[buttonId].modal || !checkmark.dataset.requiresModal)) {
-                checkmark.classList.remove('hidden');
-                markSectionComplete(buttonId);
-                course.experienced(
-                  `${topPageTitle}-part${currentPart}`,
-                  `${buttonUnit.querySelector('button').textContent.trim()}, part ${currentPart} of ${totalParts}`,
-                  Math.round((currentPart / totalParts) * 100)
-                );
-                console.log(`✅ ${buttonId} completed via video inside accordion`);
-              }
-            }
-          }
-            });
-     //   });
-  
-//??
-  // Select all accordion buttons inside .buttonUnit
-const accordionButtons = document.querySelectorAll('.buttonUnit > button');
-
-accordionButtons.forEach(button => {
-    button.addEventListener('click', () => {
-        // 1️⃣ Show the checkmark
-        const checkmark = button.parentElement.querySelector('.button-icon .fas');
-        console.log('Found checkmark:', checkmark);
-if (!checkmark) return;
-    const onComplete = checkmark.dataset.onComplete; // reads data-on-complete="show"
-
-// This is causing an issue, I think it is because some need to be actually viewed like read me story
-      //  if (checkmark) {
-      //      checkmark.classList.remove('hidden');
-      //  }  
-if (!onComplete) {
-            // Normal accordion → mark complete immediately
-            checkmark.classList.remove('hidden');
-      // Check if it has data-on-complete attribute
-//    const onComplete = checkmark.dataset.onComplete; // reads data-on-complete="show"
-
- console.log('Accordion button clicked:', button.id);
-  } else {
-            // Special accordion → wait for required actions (video/modal)
-            accordionProgress[button.id] = accordionProgress[button.id] || {};
-            console.log(`ℹ️ ${button.id} checkmark will appear after required action(s).`);
-          }
+      // Now check if all requirements are met
+      maybeCompleteAccordion(buttonId, buttonUnit);
+    }
   });
 });
-// And this will make the checkmrks with parts complete? 
 
-      // Hook modal links
-      document.querySelectorAll('a[data-toggle="modal"]').forEach(link => {
-        link.addEventListener('click', () => {
-          const collapseId = link.closest('.collapse')?.id;
-          if (!collapseId) return;
+// --- HOOK MODALS ---
+document.querySelectorAll('a[data-toggle="modal"]').forEach(link => {
+  link.addEventListener("click", () => {
+    const collapseId = link.closest(".collapse")?.id;
+    if (!collapseId) return;
 
-          const buttonUnit = document.querySelector(`[data-target="#${collapseId}"]`)?.closest('.buttonUnit');
-          if (!buttonUnit) return;
+    const buttonUnit = document.querySelector(`[data-target="#${collapseId}"]`)?.closest(".buttonUnit");
+    const buttonId = buttonUnit?.querySelector("button")?.id;
+    if (!buttonId) return;
 
-          const buttonId = buttonUnit.querySelector('button').id;
-          accordionProgress[buttonId] = accordionProgress[buttonId] || {};
-          accordionProgress[buttonId].modal = true;
+    accordionProgress[buttonId] = accordionProgress[buttonId] || {};
+    accordionProgress[buttonId].modal = true;
 
-          const checkmark = buttonUnit.querySelector('.button-icon .fas[data-on-complete="show"]');
-          if (checkmark && accordionProgress[buttonId].video && accordionProgress[buttonId].modal) {
-            checkmark.classList.remove('hidden');
-            markSectionComplete(buttonId);
-            course.experienced(
-              `${topPageTitle}-part${currentPart}`,
-              `${buttonUnit.querySelector('button').textContent.trim()}, part ${currentPart} of ${totalParts}`,
-              Math.round((currentPart / totalParts) * 100)
-            );
-            console.log(`✅ ${buttonId} completed via modal + video inside accordion`);
-          }
-        });
-      });
+    maybeCompleteAccordion(buttonId, buttonUnit);
+  });
+});
+
+// --- ACCORDION BUTTON HOOKS ---
+document.querySelectorAll(".buttonUnit > button").forEach(button => {
+  button.addEventListener("click", () => {
+    const checkmark = button.parentElement.querySelector(".button-icon .fas");
+    if (!checkmark) return;
+
+    if (!checkmark.dataset.onComplete) {
+      // Normal accordion → mark complete immediately
+      checkmark.classList.remove("hidden");
+      console.log(`✅ ${button.id} marked complete (no requirements).`);
+    } else {
+      // Special accordion → wait for required actions
+      accordionProgress[button.id] = accordionProgress[button.id] || {};
+      console.log(`ℹ️ ${button.id} checkmark will appear after video/modal.`);
+    }
+  });
+});
+
+// --- HELPER: COMPLETE ACCORDION IF REQUIREMENTS MET ---
+function maybeCompleteAccordion(buttonId, buttonUnit) {
+  const checkmark = buttonUnit.querySelector('.button-icon .fas[data-on-complete="show"]');
+  if (!checkmark) return;
+
+  const progress = accordionProgress[buttonId] || {};
+  const requiresModal = checkmark.dataset.requiresModal;
+
+  const videoDone = progress.video === true;
+  const modalDone = requiresModal ? progress.modal === true : true;
+
+  if (videoDone && modalDone) {
+    checkmark.classList.remove("hidden");
+    console.log(`✅ ${buttonId} completed (all requirements met).`);
+
+    // Send CMI5 statement
+    course.experienced(
+      `${topPageTitle}-part${currentPart}`,
+      `${buttonUnit.querySelector("button").textContent.trim()}, part ${currentPart} of ${totalParts}`,
+      Math.round((currentPart / totalParts) * 100)
+    );
+  }
+}
+
 
   // Hook Finish button
   const endBtn = document.getElementById("finishBtn");
@@ -294,50 +228,51 @@ document.querySelectorAll(".expandingPageContinueButton.preKBQExpandButton")
 // Hook KBQ SUBMIT buttons (inside each KBQ question)
 document.querySelectorAll(".kbqSubmit").forEach((submitBtn, qIndex) => {
   submitBtn.addEventListener("click", () => {
-    console.log("📝 KBQ Submit clicked (question index:", qIndex, ")");
-
+  setTimeout(() => { // tiny delay to let vsLib update DOM
     const group = submitBtn.closest("[data-step-type='kbq']");
     if (!group) return;
 
-    const choices = group.querySelectorAll("input[type='radio']");
-    const selected = group.querySelector("input[type='radio']:checked");
+    const allInputs = group.querySelectorAll("input, select, textarea");
+    if (!allInputs.length) return;
 
-    if (!selected) {
-      console.warn("⚠️ No answer selected.");
+    const selectedInputs = Array.from(allInputs).filter(input => {
+      if (input.type === "radio" || input.type === "checkbox") return input.checked;
+      if (input.tagName.toLowerCase() === "select") return input.selectedIndex >= 0;
+      if (input.type === "text" || input.tagName.toLowerCase() === "textarea") return input.value.trim() !== "";
+      return false;
+    });
+
+    if (!selectedInputs.length) {
+      console.warn("⚠️ No answers selected.");
       return;
     }
 
-    const correctInput = group.querySelector("input[value='1']");
-    const correct = selected.value === "1";
-    const questionText =
-      group.querySelector(".kbq-question p")?.textContent.trim() ||
-      `Question ${qIndex + 1}`;
+    // correct answers: all inputs with value="1"
+    const correctInputs = Array.from(allInputs).filter(i => i.value === "1");
 
-    // Build interaction object for CMI5
+    // build interaction object
     const interactionObj = {
-      testId: `kbq${qIndex + 1}`,
-      interactionId: `q${qIndex + 1}`,
+      testId: group.dataset.kbqSeries || `kbq-${Math.random().toString(36).substr(2,5)}`,
+      interactionId: `q-${Math.random().toString(36).substr(2,5)}`,
       interactionType: "choice",
-      name: questionText,
-      description: questionText,
-      userAnswers: [selected.id], // what learner chose
-      correctAnswers: correctInput ? [correctInput.id] : [],
-      success: correct,
-      choices: Array.from(choices).map(input => ({
-        id: input.id,
-        description: { "en-US": input.parentElement.textContent.trim() }
+      name: group.querySelector(".kbq-question p")?.textContent.trim() || "KBQ Question",
+      description: group.querySelector(".kbq-question p")?.textContent.trim() || "KBQ Question",
+      userAnswers: selectedInputs.map(i => i.id || i.name || i.value),
+      correctAnswers: correctInputs.map(i => i.id || i.name || i.value),
+      success: selectedInputs.every(i => i.value === "1") &&
+               selectedInputs.length === correctInputs.length,
+      choices: Array.from(allInputs).map(input => ({
+        id: input.id || input.name || input.value,
+        description: { "en-US": input.parentElement?.textContent.trim() || input.value || "" }
       }))
     };
 
-    // Send answered statement
     course.captureInteractions([interactionObj])
-      .then(() => console.log(`✅ Sent ANSWERED for ${interactionObj.testId}`, interactionObj))
-      .catch(err => console.error("❌ Error sending KBQ answered statement:", err));
+      .then(() => console.log("✅ Sent KBQ answered:", interactionObj))
+      .catch(err => console.error("❌ Error sending KBQ:", err));
 
-    console.log(
-      `Result: ${correct ? "✔️ Correct" : "❌ Incorrect"} | User chose: ${selected.id}`
-    );
-  });
+  }, 0);
+});
 });
 
 

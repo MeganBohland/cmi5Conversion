@@ -58,4 +58,52 @@ The second chapter
         </description>
         <url>coursefiles/L01_010_4.html</url>
     </au>
+        <au id="https://amazing/CTIP/5"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Basic Characteristics of Human Trafficking Crimes</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                Basic Characteristics of Human Trafficking Crimes
+            </langstring>
+        </description>
+        <url>coursefiles/L01_020a.html</url>
+    </au>
+        <au id="https://amazing/CTIP/6"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Trafficking in Persons Laws and Policies</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                Trafficking in Persons Laws and Policies
+            </langstring>
+        </description>
+        <url>coursefiles/L01_030.html</url>
+    </au>
+    <au id="https://amazing/CTIP/7"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Methods for Combating Trafficking in Persons</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                Methods for Combating Trafficking in Persons
+            </langstring>
+        </description>
+        <url>coursefiles/L01_040.html</url>
+    </au>
+        <au id="https://amazing/CTIP/8"
+        moveOn="CompletedOrPassed" launchMethod="OwnWindow">
+        <title>
+            <langstring lang="en-US">Summary</langstring>
+        </title>
+        <description>
+            <langstring lang="en-US">
+                Summary
+            </langstring>
+        </description>
+        <url>coursefiles/L01_050a.html</url>
+    </au>
 </courseStructure>
