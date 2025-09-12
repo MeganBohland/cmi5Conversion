@@ -33,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
       () => console.log("CMI5 Initialized, ready to send statements."),
       (result, error, active) => console.log("Statement callback", { result, error, active })
     )
-      // Stores which sub-actions are done for each accordion for accordion completion tracking
 
     // Hook all Continue buttons.
     const continueButtons = document.querySelectorAll(".expandingPageContinueButton")
@@ -72,10 +71,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Trackinging video play/pause/complete
   // ✅ Grab all videos
   const videos = document.querySelectorAll("video");
-// --- TRACK ACCORDION PROGRESS ---
-const accordionProgress = {}; // keeps track of video/modal per accordion
+  // --- TRACK ACCORDION PROGRESS ---
+  const accordionProgress = {}; // keeps track of video/modal per accordion
 
-// --- HOOK ALL VIDEOS ---
+  // --- HOOK ALL VIDEOS ---
 document.querySelectorAll("video").forEach(video => {
   const vidId = video.id || `video-${Math.random().toString(36).substr(2, 5)}`;
   video.id = vidId;
@@ -133,6 +132,7 @@ document.querySelectorAll("video").forEach(video => {
 
 // --- HOOK MODALS ---
 document.querySelectorAll('a[data-toggle="modal"]').forEach(link => {
+  
   link.addEventListener("click", () => {
     const collapseId = link.closest(".collapse")?.id;
     if (!collapseId) return;
@@ -190,7 +190,6 @@ function maybeCompleteAccordion(buttonId, buttonUnit) {
   }
 }
 
-
   // Hook Finish button
   const endBtn = document.getElementById("finishBtn");
   if (endBtn) {
@@ -204,6 +203,8 @@ function maybeCompleteAccordion(buttonId, buttonUnit) {
 document.querySelectorAll(".expandingPageContinueButton.preKBQExpandButton")
   .forEach(btn => {
     btn.addEventListener("click", () => {
+      
+      // Debugging
       console.log("➡️ KBQ Continue clicked");
       currentPart++;
 
@@ -217,7 +218,8 @@ document.querySelectorAll(".expandingPageContinueButton.preKBQExpandButton")
         `${sectionTitle}, part ${currentPart} of ${totalParts}`,
         Math.round((currentPart / totalParts) * 100)
       );
-
+      
+      // Debugging
       console.log(
         `📖 ${topPageTitle}: part ${currentPart}/${totalParts}`
       );
@@ -243,6 +245,7 @@ document.querySelectorAll(".kbqSubmit").forEach((submitBtn, qIndex) => {
     });
 
     if (!selectedInputs.length) {
+      // Debugging
       console.warn("⚠️ No answers selected.");
       return;
     }
@@ -280,8 +283,9 @@ document.querySelectorAll(".kbqSubmit").forEach((submitBtn, qIndex) => {
 
 
 function finishCourse() {
-  console.log("🏁 Finishing course...");
 
+  // Debugging
+  console.log("🏁 Finishing course...");
   console.log(`Pages viewed: ${currentPart} of ${totalParts}`);
 
   if (currentPart < totalParts) {
@@ -297,12 +301,14 @@ function finishCourse() {
 
   if (currentPart >= totalParts) {
     // ✅ Full completion
+    // Debugging
     console.log("✅ Marking course as passed and complete");
 
     // Try passAndComplete if available
     if (typeof course.passAndComplete === "function") {
       course.passAndComplete({ scaled: 1.0 })
         .then(() => {
+          // Debugging
           console.log("➡️ passAndComplete succeeded, calling exit()");
           if (typeof course.exit === "function") {
             course.exit();
@@ -312,6 +318,7 @@ function finishCourse() {
           window.close(); // fallback
         })
         .catch(err => {
+          // Debugging
           console.error("❌ Error during passAndComplete:", err);
           if (typeof course.terminate === "function") course.terminate();
         });
@@ -328,6 +335,7 @@ function finishCourse() {
 
   } else {
     // ❌ Exited early
+    // Debugging
     console.warn("Course ended early, terminating only.");
     if (typeof course.exit === "function") {
       course.exit();

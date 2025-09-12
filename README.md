@@ -13,3 +13,4 @@ CourseFiles -
 Image folder
 Video Folder
 Javascript Folder
+    - besides other js files, include Rustici's course_cmi5.js
