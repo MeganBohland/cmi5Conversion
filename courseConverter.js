@@ -279,7 +279,16 @@ document.querySelectorAll(".kbqSubmit").forEach((submitBtn, qIndex) => {
 });
 
 
-});// end document ready
+});
+
+function updateFinishButton() {
+  // When this is called, switch from "Exit" to "Finish"  
+        finishBtn.textContent = 'Finish';
+    
+}
+
+// Example: call whenever a part is completed
+// updateFinishButton(true); or updateFinishButton(false);
 
 
 function finishCourse() {
