@@ -1,19 +1,36 @@
 # convertClassesWork
-A repo to hold my work and new files as I break these classes down
+A way to take finished html courses, and turn them into cmi5 compliant packages. Used with some files from Rustici's [Catapult player](https://github.com/adlnet/CATAPULT/tree/main/player). 
 
 ## How to use
-Currently this is set so that HTML courses can be converted to cmi5 standard. It hooks into the existing buttons and features, to listen and send cmi5 statements. The course currently in the repo is Combating Trafficking in Persons (CTIP). 
+Currently this is set so that HTML courses can be converted to cmi5 standard. It hooks into the existing buttons and features, to listen and send cmi5 statements.
 
-Ideally to utilize all that will be needed is the HTML course to be broken apart and the HTML adjusted. For instance, finish buttons may need to be added, and references to the course converter js and css pages. 
+To utilize, the *courseConverter.js* will need to be placed at the root of the folder. A cmi5.xml will need to be created, pointing to the HTML pages to be made into AUs. There is an example *cmi5.xml* in the repo.
 
-Here is an example of a course structure with files added in. This structure works in uploading as cmi5 to Moodle.
+Because the courses were originally HTML, we will need to add our own exit button to each separate AU, such as - 
+```
+<button id="finishBtn" type="button" class="btn btn-block">Exit</button>
+```
+The *courseconverter.css* handles the styling of the finish buttons, and should be placed where the other css files are. Be sure to include a reference to it in each html file, at the top with the other css sheets:
+ ```
+    <link rel="stylesheet" href="css/courseconverter.css"/>
+ ```
 
-cmi5.xml (this will need to be created and point to the correct html pages for each AU)
-CourseConverter.js
-CourseFiles - 
- - css folder
-    -courseconverter.css (This is one of the files that need to be added to the course you are converting. it holds the 'Finish' button styling.)
-Image folder
-Video Folder
-Javascript Folder
-    - besides other js files, include Rustici's course_cmi5.js
+The *cmi5.min.js*, *course.js*, and *course_cmi5.js* (the Rustici files) need to be in the js file. Be sure to to include references to them at the bottom, and be sure to use initCourse() to initilaze the course converter:
+```
+<script src="../js/cmi5.min.js"></script>
+
+<script src="../js/course_cmi5.js"></script>
+
+<script src="../js/course.js"></script>
+
+<script src="../courseConverter.js"></script>
+
+
+<script>
+	initCourse();
+</script>
+
+```
+
+
+
