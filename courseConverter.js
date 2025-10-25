@@ -9,23 +9,11 @@ let videos;
 
 
 function initCourse() {
-
+    console.log("init course fired");
 // Wait for page to load
 document.addEventListener("DOMContentLoaded", function () {
 
-  // Try to get the top page title, for tracking.
-  topPageTitle = document.querySelector("h1")?.textContent.trim() || "Untitled Page";
-
-  document.querySelectorAll(".container").forEach(container => {
-    // Look for expanding sections to see how many 'parts' are on this page. for passing completion/tracking.
-    // Count sections with expand-order inside this container
-    const expandSections = container.querySelectorAll("[data-expand-order]").length;
-    totalParts = expandSections + 1; // +1 for the always-visible first section
-    
-    // Debugging
-    console.log(`Total parts in this container: ${totalParts}`);
-        
-    // Init CMI5 only once
+      // Init CMI5 only once
     course = new CourseCmi5Plugin();
 
     course.initialize(
@@ -34,57 +22,80 @@ document.addEventListener("DOMContentLoaded", function () {
       (result, error, active) => console.log("Statement callback", { result, error, active })
     )
 
-    // Hook all Continue buttons.
-    const continueButtons = document.querySelectorAll(".expandingPageContinueButton")
-      .forEach(btn => {
-        btn.addEventListener("click", () => {
-          //Debugging
-          console.log('what is current part before incrementing:', currentPart);
-          // We want to increment parts on continue button, as that is what their pages use to advance, and only 
-          // when it is completed.
-          currentPart++;
 
-        // Attempt to get section title for better tracking
-        sectionTitle =
-          (container.querySelector("h1")?.textContent.trim()) ||
-          (container.querySelector("h2")?.textContent.trim()) ||
-          (topPageTitle);
+  // Try to get the top page title, for tracking.
+sectionTitle = getSectionTitle();
+console.log("Resolved section title:", sectionTitle);
+topPageTitle = sectionTitle;
 
-          // Debugging
-          console.log(`Calling course.experienced...✅ Clicked: ${sectionTitle} | Viewed ${currentPart}/${totalParts}`);
-          
-          // Send cmi5 statement to show this part has been experienced
-          course.experienced(
-              `${topPageTitle}-part${currentPart}`,
-              `${sectionTitle}, part ${currentPart} of ${totalParts}`,
-              Math.round((currentPart / totalParts) * 100)
-            );
+// To be robust, look for all containers or words that HAVE container in it
+// Then filter out nested to avoid counting ones that may only be for styling.
+// el stands for element in the filter function.
+const containers = Array.from(document.querySelectorAll(`
+  .container,
+  .container-fluid,
+  .container-sm,
+  .container-md,
+  .container-lg,
+  .container-xl,
+  .container-xxl,
+  [data-page-type],
+  [id*="container"],
+  [class*="container"]
+`)).filter(el => !el.closest(".nested") && !el.closest(".modal"));
+
+console.log("Found containers:", containers.length);
+containers.forEach(c => console.log("Container element:", c));
+
+// --- GLOBAL PART COUNT (all containers combined) ---
+const allExpandParts = document.querySelectorAll("[data-expand-order]");
+totalParts = allExpandParts.length + 1; // +1 for the visible intro part
+currentPart = 0;
+console.log(`🌍 Global total parts across all containers: ${totalParts}`);
+
+containers.forEach(container => {
+
+    
+    console.log("IS there even a document2? ..." , document);
+      console.log("IS there even a container? ..." , container);
+
+    // Debugging
+    console.log(`Total parts in this container: ${totalParts}`);
         
-        // Debugging
-        console.log(
-            `📖 ${topPageTitle}: part ${currentPart}/${totalParts}`
-          );
-        }
-      );
-    });
 
-  // Trackinging video play/pause/complete
-  // ✅ Grab all videos
-  const videos = document.querySelectorAll("video");
-  // --- TRACK ACCORDION PROGRESS ---
+
+// --- TRACKING VIDEO PLAY/PAUSE/COMPLETE ---
+console.log("🎬 Initializing video tracking...");
+
+    // --- TRACK VIDEOS ONLY INSIDE THIS CONTAINER ---
+    const videos = container.querySelectorAll("video");
+// --- TRACK ACCORDION PROGRESS ---
   const accordionProgress = {}; // keeps track of video/modal per accordion
 
-  // --- HOOK ALL VIDEOS ---
-document.querySelectorAll("video").forEach(video => {
-  const vidId = video.id || `video-${Math.random().toString(36).substr(2, 5)}`;
-  video.id = vidId;
+    videos.forEach(video => {
+        if (video.dataset.hooked) return; // Prevent double-binding
+        video.dataset.hooked = "true";
 
-  // Try to get a title
-  let vidTitle = video.getAttribute("title") ||
-    video.closest(".collapse")?.querySelector("button")?.textContent?.trim() ||
+        const vidId = video.id || `video-${Math.random().toString(36).substr(2, 5)}`;
+        video.id = vidId;
+
+  // --- Improved title resolution ---
+  // 1. Use title attribute if it's not "Play Video"
+  // 2. Use the related accordion button text via aria-controls
+  // 3. Fallback to filename
+  // 4. Finally, use the video ID
+  let vidTitle =
+    (video.getAttribute("title") && video.getAttribute("title") !== "Play Video"
+      ? video.getAttribute("title")
+      : null) ||
+    document.querySelector(`[aria-controls="${video.closest(".collapse")?.id}"]`)?.textContent?.trim() ||
     video.src?.split("/").pop().replace(/\.[^/.]+$/, "") ||
     vidId;
 
+  console.log("Resolved video title:", vidTitle);
+  console.log("Video element:", video);
+
+  // --- Create tracking object ---
   const videoObj = {
     objectId: `${window.location.href.replace(/[#?].*$/, "")}#video-${vidId}`,
     name: vidTitle,
@@ -96,12 +107,17 @@ document.querySelectorAll("video").forEach(video => {
     completion: false,
   };
 
+
   // Link video to its accordion (if any)
   const parentCollapse = video.closest(".collapse");
   const buttonUnit = parentCollapse
     ? document.querySelector(`[data-target="#${parentCollapse.id}"]`)?.closest(".buttonUnit")
     : null;
   const buttonId = buttonUnit?.querySelector("button")?.id;
+
+    // TODO: your event listeners for play/pause/etc here
+
+
 
   // --- EVENT HOOKS ---
   video.addEventListener("play", () => {
@@ -199,32 +215,7 @@ function maybeCompleteAccordion(buttonId, buttonUnit) {
   }
 //});
 
-// Hook KBQ CONTINUE button (same as other continue buttons)
-document.querySelectorAll(".expandingPageContinueButton.preKBQExpandButton")
-  .forEach(btn => {
-    btn.addEventListener("click", () => {
-      
-      // Debugging
-      console.log("➡️ KBQ Continue clicked");
-      currentPart++;
 
-      sectionTitle =
-        (document.querySelector("h1")?.textContent.trim()) ||
-        (document.querySelector("h2")?.textContent.trim()) ||
-        (topPageTitle);
-
-      course.experienced(
-        `${topPageTitle}-part${currentPart}`,
-        `${sectionTitle}, part ${currentPart} of ${totalParts}`,
-        Math.round((currentPart / totalParts) * 100)
-      );
-      
-      // Debugging
-      console.log(
-        `📖 ${topPageTitle}: part ${currentPart}/${totalParts}`
-      );
-    });
-  });
 
 
 // Hook KBQ SUBMIT buttons (inside each KBQ question)
@@ -277,9 +268,53 @@ document.querySelectorAll(".kbqSubmit").forEach((submitBtn, qIndex) => {
   }, 0);
 });
 });
+hookContinueButtons();
 
 
 });
+});
+
+// --- UNIVERSAL CONTINUE BUTTON HANDLER ---
+function hookContinueButtons() {
+  const selector = `
+    .expandingPageContinueButton,
+    .expandingPageContinueButton.preKBQExpandButton,
+    .continue,
+    .continue-btn,
+    .next,
+    .next-btn,
+    [data-role="continue"],
+    [data-action="continue"],
+    button[id*="continue"],
+    button[id*="next"]
+  `;
+
+  const buttons = document.querySelectorAll(selector);
+  console.log(`🧩 Found ${buttons.length} potential continue buttons`);
+
+  buttons.forEach(btn => {
+    if (btn.dataset.continueHooked) return; // prevent double binding
+    btn.dataset.continueHooked = true;
+
+    btn.addEventListener("click", () => {
+      currentPart++;
+
+      // Find the closest container for this button
+  const container = btn.closest(".container, [data-page-type]") || document.body;
+
+      sectionTitle = getSectionTitle(container) || topPageTitle;
+
+
+      console.log(`➡️ Continue clicked (${sectionTitle}) part ${currentPart}/${totalParts}`);
+
+      course.experienced(
+        `${topPageTitle}-part${currentPart}`,
+        `${sectionTitle}, part ${currentPart} of ${totalParts}`,
+        Math.round((currentPart / totalParts) * 100)
+      );
+    });
+  });
+}
 
 function updateFinishButton() {
   // When this is called, switch from "Exit" to "Finish"  
@@ -289,6 +324,40 @@ function updateFinishButton() {
 
 // Example: call whenever a part is completed
 // updateFinishButton(true); or updateFinishButton(false);
+
+// Helper to get section title robustly, scoped to a container
+function getSectionTitle(container) {
+  let title = "";
+
+  // 1️⃣ Check for a meta inside the container (if present)
+  const metaTitle = container?.querySelector('meta[name="title"]');
+  if (metaTitle && metaTitle.content) {
+    title = metaTitle.content.trim();
+  }
+
+  // 2️⃣ Fallback to OpenGraph (og:title)
+  if (!title) {
+    const ogTitle = container?.querySelector('meta[property="og:title"]');
+    if (ogTitle && ogTitle.content) {
+      title = ogTitle.content.trim();
+    }
+  }
+
+  // 3️⃣ Fallback to container's <h1> or <h2>
+  if (!title) {
+    const heading = container?.querySelector("h1,h2");
+    if (heading) title = heading.innerText.trim();
+  }
+
+  // 4️⃣ Final fallback: filename
+  if (!title) {
+    const path = window.location.pathname;
+    title = path.substring(path.lastIndexOf("/") + 1, path.lastIndexOf(".")) || "Untitled Section";
+  }
+
+  return title;
+}
+
 
 
 function finishCourse() {
@@ -354,7 +423,8 @@ function finishCourse() {
   }
 }
 
-});
+
 
 }
+
 
