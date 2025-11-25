@@ -3,7 +3,6 @@ A way to take finished html courses, and turn them into cmi5 compliant packages.
 
 ## How to use
 Currently this is set so that HTML courses can be converted to cmi5 standard. It hooks into the existing buttons and features, to listen and send cmi5 statements.
-<<<<<<< HEAD
 
 To utilize, the *courseConverter.js* will need to be placed at the root of the folder. A cmi5.xml will need to be created, pointing to the HTML pages to be made into AUs. There is an example *cmi5.xml* in the repo.
 
@@ -32,7 +31,7 @@ The *cmi5.min.js*, *course.js*, and *course_cmi5.js* (the Rustici files) need to
 </script>
 
 ```
-#Quizzes
+## Quizzes
 
 I have noticed often the quizzes we are tryin to convert have no 'failed' function that we can listen on and send statements for. In this case I created a relatively blank function 
 ```
@@ -44,7 +43,6 @@ This function can be harmlessly added to quiz logic to trigger failed conditions
 I made every attempt to handle most html options, searching for titles, buttons, etc. However, it may be necessary to either add a type to the converter, or adjust the HTML.
 
 For instance, the getSectionTitle function attempts to get the appropriate name for completion statement from first the meta data, than nearby headers, and then falls back to file name. If the cmi5 statements dont display as you like, consider adding a title tag to the file for the function to find. 
-=======
 
 To utilize, the *courseConverter.js* will need to be placed at the root of the folder. A cmi5.xml will need to be created, pointing to the HTML pages to be made into AUs. There is an example *cmi5.xml* in the repo.
 
@@ -74,6 +72,4 @@ The *cmi5.min.js*, *course.js*, and *course_cmi5.js* (the Rustici files) need to
 
 ```
 
-
->>>>>>> 2a5e69fc35838fdc78ed4ceb6a9109ff3e2c286c
 
