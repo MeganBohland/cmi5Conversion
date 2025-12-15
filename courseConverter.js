@@ -11,6 +11,9 @@ let userScore;
 let quizArrays;
 let numChoices;
 let knownNames;
+let courseFinished = false;
+let quizpassed = false;
+
 async function initCourse() {
     console.log("initCourse fired");
 
@@ -51,57 +54,6 @@ async function initCourse() {
         currentPart = 0;
         console.log(`🌍 Global total parts: ${totalParts}`);
 
-        // Hook form quiz if present
-       // const quizDiv = document.querySelector("div[id^='quiz']");
-        // search for all ids that have quiz (id*), case insensitive (i) to see if there is a quiz form.
-          const quizForm = document.querySelector('[id*="quiz" i]')
-        if (quizForm) {
-          // Grab the quiz out of current form (nodeselement list)
-          console.log ("🎯 Quiz div detected on page load — hooking CMI5");
-        
-
-          // So maybe instead of hooking the functions we hook submit?
-          // either way we nee to hook submit to add our exit and completed statements
-          // search for all ids that have quiz (id*), case insensitive (i) to see if there is a quiz form.
-          //const quizForm = document.querySelectorAll('[id*="quiz" i]')
-          // Try various options tio get a submit button, more can be added if need be
-          const submitButton = quizForm.querySelector(
-            'a.buttonText, button.submit, input[type="submit"], button[type="submit"]'
-          );  
-
-          if (submitButton) 
-                {submitButton.addEventListener("click", finishCourse);
-                    console.log("submit button founnd");
-                }
-          // Now hook their quiz complete
-            quizScore = await wrapFormQuizFunctions();
-            // we can have the above function return the score and then do pass and complete
-            // or pass and fail
-
-      // The test.js does not have fail functrion so we will set this by a pass of 8.
-          // This happens to match the passin value in test.js
-          
-          // ITs because it loads this right away BUT the wrapper waits for the functions to be called
-          // what we need is an asynch promise/wait situation or a set timeout to delay this check
-          // until after the user has taken the test.
-          
-          // Currently it keeps thje session open allowing user to repeatedly fail until they pass.
-          //While this may be acceptable for their quiz this doesnt work with cmi5 specs as they need each sessions to be separate
-          // so to avoid having to change their code alot lets try to complete/fail and EXIT with our hooks.
-
-          if (quizScore >= 80) {
-            console.log("User passed the test with score:", quizScore);
-            course.passAndComplete({scaled: quizScore} )
-            finishCourse();
-        
-          } else {
-            console.log("User failed the test with score:", quizScore);
-            course.fail({scaled: quizScore} );  
-            finishCourse();
-    
-          }
-  
-  }
         // --- VIDEO & MODAL TRACKING ---
         containers.forEach(container => hookVideosAndModals(container));
 
@@ -114,7 +66,28 @@ async function initCourse() {
         // --- KBQ HOOKS ---
         hookKBQButtons();
 
+        
+        // IF IT IS A QUIZ
+          // Hook form quiz if present
+       // const quizDiv = document.querySelector("div[id^='quiz']");
+        // search for all ids that have quiz (id*), case insensitive (i) to see if there is a quiz form.
+          const quizForm = document.querySelector('[id*="quiz" i]')
+        if (quizForm) {
 
+            scaled =    await wrapFormQuizFunctions();
+            finishCourse({
+                        raw: userScore,
+                        scaled: scaled,
+                        min: 0,
+                        max: 100
+                        });  //
+
+                   
+            }
+
+
+               
+            
         // --- FINISH BUTTON ---
         const endBtn = document.getElementById("finishBtn");
         if (endBtn) endBtn.addEventListener("click", finishCourse);
@@ -310,10 +283,12 @@ function wrapFormQuizFunctions() {
           // ---  CMI5/xAPI logic here ---
           // sendStatement('passed', { score: userScore });
  // Convert percentage to 0-1
-        quizScore = userScore / 100;
+        const scaled = userScore / 100;
 
             console.log("Calculated quizScore for CMI5:", quizScore);
-            resolve(quizScore);  //
+            // Cmi5 must always have a 'scaled' score, but this isnt easy for displaying grades so return both.
+ resolve(scaled);
+          //
         } catch (err) {
           console.warn("Error in wrapper (PostTestPassed):", err);
         }
@@ -331,14 +306,15 @@ function wrapFormQuizFunctions() {
         try {
           console.log("[Hook] postTestFailed triggered", { userScore });
 
-          // ---  CMI5/xAPI logic here ---
+              // ---  CMI5/xAPI logic here ---
           // sendStatement('passed', { score: userScore });
  // Convert percentage to 0-1
-        quizScore = userScore / 100;
+        const scaled = userScore / 100;
 
             console.log("Calculated quizScore for CMI5:", quizScore);
-            resolve(quizScore);  //
+            // Cmi5 must always have a 'scaled' score, but this isnt easy for displaying grades so return both.
 
+            resolve(scaled);
 
         } catch (err) {
           console.warn("Error in wrapper (PostTestPassed):", err);
@@ -358,8 +334,17 @@ function wrapFormQuizFunctions() {
 
 
 // ------------------- FINISH -------------------
-function finishCourse() {
-    console.log("🏁 Finishing course...");
+function finishCourse(userScoreObj = null) {
+
+    // Just in case it gets confused between quiz mode or not, we do not want double finishing,
+    if (courseFinished){
+    console.warn("⛔ finishCourse already executed — blocking duplicate call.");
+    return;
+  }
+
+  courseFinished = true;
+
+    console.log("🏁 Finishing course...", userScoreObj);
     if (currentPart < totalParts) currentPart++;
 
     // Andy says experienced isn't a CMI5 verb, so this can be removed if need be. For now it is for extra info - MB
@@ -369,10 +354,50 @@ function finishCourse() {
         Math.round((currentPart / totalParts) * 100)
     );
 
+    // Detect if this is a quiz and needs to be passed based of grade or is not and is passed by viewing all parts.
+    const isQuizMode =
+    userScoreObj &&
+    typeof userScoreObj === "object" &&
+    typeof userScoreObj.raw === "number";
+
+    const didPass = isQuizMode ? userScoreObj.raw >= 80 : currentPart >= totalParts;
+
+     // =========================
+    // ✅ QUIZ MODE
+    // =========================
+    if (isQuizMode) {
+        console.log("🎯 Quiz mode detected. Passed?", didPass);
+
+        if (didPass && typeof course.passAndComplete === "function") {
+            console.log("✅ Marking course as PASSED (quiz)");
+            course.passAndComplete(userScoreObj)
+                .then(() => {
+                    if (typeof course.exit === "function") course.exit();
+                    else if (typeof course.terminate === "function") course.terminate();
+                    window.close();
+                })
+                .catch(err => {
+                    console.error("❌ Error during passAndComplete:", err);
+                });
+
+        } else if (!didPass && typeof course.fail === "function") {
+            console.log("✅ Marking course as FAILED (quiz)");
+            course.fail(userScoreObj)
+                .then(() => window.close())
+                .catch(err => console.error("❌ Fail error:", err));
+        }
+
+        return; // 🚨 IMPORTANT: prevent fallthrough into non-quiz logic
+    }
+
+    // =========================
+    // ✅ NON-QUIZ (PROGRESS MODE)
+    // =========================
+
     if (currentPart >= totalParts) {
         console.log("✅ Marking course as passed and complete");
         if (typeof course.passAndComplete === "function") {
-            course.passAndComplete({ scaled: 1.0 }).then(() => {
+            course.passAndComplete().then(() => {
                 if (typeof course.exit === "function") course.exit();
                 else if (typeof course.terminate === "function") course.terminate();
                 window.close();
@@ -385,10 +410,6 @@ function finishCourse() {
             if (typeof course.terminate === "function") course.terminate();
             window.close();
         } 
-         if (typeof course.fail === "function") {
-            console.log("✅ Marking course as failed FAILEDEDD");
-            course.fail({ scaled: 0.0 }).then(() => {window.close();})
-        }
     } else {
         console.warn("Course ended early, terminating only.");
         if (typeof course.exit === "function") course.exit();
