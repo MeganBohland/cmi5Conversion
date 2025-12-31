@@ -13,6 +13,7 @@ let numChoices;
 let knownNames;
 let courseFinished = false;
 let quizpassed = false;
+let isQuizMode = false;
 
 async function initCourse() {
     console.log("initCourse fired");
@@ -75,6 +76,8 @@ async function initCourse() {
         if (quizForm) {
 
             scaled =    await wrapFormQuizFunctions();
+
+            isQuizMode = true;
             finishCourse({
                         raw: userScore,
                         scaled: scaled,
@@ -327,6 +330,8 @@ function wrapFormQuizFunctions() {
     }
     console.log("Lets see if quizscore is undefined here? ", quizScore);
     console.log("✅ All quiz functions wrapped safely.");
+    // make it quizmode
+
    // return quizScore;
   })  
 };
@@ -353,13 +358,13 @@ function finishCourse(userScoreObj = null) {
         `${sectionTitle}, part ${currentPart} of ${totalParts}`,
         Math.round((currentPart / totalParts) * 100)
     );
-
+    
     // Detect if this is a quiz and needs to be passed based of grade or is not and is passed by viewing all parts.
-    const isQuizMode =
-    userScoreObj &&
-    typeof userScoreObj === "object" &&
-    typeof userScoreObj.raw === "number";
-
+    //const isQuizMode =
+    //userScoreObj &&
+    //typeof userScoreObj === "object" &&
+    //typeof userScoreObj.raw === "number";
+//console.log("And are we entering the quiz? what is our quizmode here? is quizmode is: ", isQuizMode)
     const didPass = isQuizMode ? userScoreObj.raw >= 80 : currentPart >= totalParts;
 
      // =========================
@@ -367,7 +372,7 @@ function finishCourse(userScoreObj = null) {
     // =========================
     if (isQuizMode) {
         console.log("🎯 Quiz mode detected. Passed?", didPass);
-
+try {
         if (didPass && typeof course.passAndComplete === "function") {
             console.log("✅ Marking course as PASSED (quiz)");
             course.passAndComplete(userScoreObj)
@@ -382,17 +387,21 @@ function finishCourse(userScoreObj = null) {
 
         } else if (!didPass && typeof course.fail === "function") {
             console.log("✅ Marking course as FAILED (quiz)");
-            course.fail(userScoreObj)
-                .then(() => window.close())
-                .catch(err => console.error("❌ Fail error:", err));
+            course.fail(userScoreObj);
+              if (typeof course.exit === "function") course.exit();
+                else if (typeof course.terminate === "function") course.terminate();
+               // .catch(err => console.error("❌ Fail error:", err));
         }
-
+    } catch (err){
+         console.error("❌ Fail error:", err)
+    }
         return; // 🚨 IMPORTANT: prevent fallthrough into non-quiz logic
     }
 
     // =========================
     // ✅ NON-QUIZ (PROGRESS MODE)
     // =========================
+// why is this part firing on quizzes?
 
     if (currentPart >= totalParts) {
         console.log("✅ Marking course as passed and complete");

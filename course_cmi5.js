@@ -76,8 +76,28 @@ CourseCmi5Plugin.prototype.initialize = function (callbackOnInit, callbackOnStat
     
     console.log("Initializing CMI5 Plugin...");
   this.callbackOnStatementSend = callbackOnStatementSend;
+  console.log("Launch URL seen by Cmi5:", document.location.href);
+try {
+  const url = new URL(document.location.href);
+  console.log("✅ URL object created:", url);
+  console.log("🔍 Search params:", url.searchParams);
+  console.log("🔍 endpoint param:", url.searchParams.get("endpoint"));
+} catch (err) {
+  console.error("❌ URL parse failed:", err);
+}
+
   this.cmi5 = new Cmi5(document.location.href);
+  
   console.log("Cmi5 object created:", this.cmi5);
+  console.log("Launch URL seen by Cmi5:", document.location.href);
+try {
+    const url = new URL(document.location.href);
+    console.log("Parsed URL:", url);
+    console.log("Search params:", url.searchParams.toString());
+} catch (err) {
+    console.error("URL parse failed:", err);
+}
+
     if (!this.cmi5.getEndpoint()) {
         console.error("No endpoint found in launch URL");//
         this.cmi5 = null;
